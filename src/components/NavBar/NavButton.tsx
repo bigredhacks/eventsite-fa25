@@ -1,0 +1,39 @@
+import React from "react";
+import { smoothScrollTo } from "@/utils/smoothScrollTo.tsx";
+
+type NavButtonProps = {
+  targetId: string;
+  children: React.ReactNode;
+  className?: string;
+  setDisableHideUntil?: (time: number) => void;
+};
+
+const NavButton: React.FC<NavButtonProps> = ({
+  targetId,
+  children,
+  className,
+  setDisableHideUntil,
+}) => {
+  const handleClick = () => {
+    const section = document.getElementById(targetId);
+    const scrollSpeed = 500; // Speed of scrolling
+    if (section) {
+      if (setDisableHideUntil) {
+        setDisableHideUntil(Date.now() + scrollSpeed + 100); // 100 for buffer
+      }
+      const targetY = section.getBoundingClientRect().top + window.scrollY;
+      smoothScrollTo(targetY, scrollSpeed);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      className={`hover:underline ${className ?? ""}`}
+    >
+      {children}
+    </button>
+  );
+};
+
+export default NavButton;

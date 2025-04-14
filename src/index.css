@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Jersey+10&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /** Colors **/
+  --color-purple1: #403b66; /* medium purple #403B66 */
+  --color-purple2: #1d1a33; /* dark purple: #1D1A33 */
+  --color-white1: #efefef; /* lighter white: #EFEFEF */
+  --color-white2: #d5d5d5; /* darker white: #D5D5D5 */
+  --color-yellow1: #fffada; /* lighter yellow: #FFFADA */
+  --color-yellow2: #ffea96; /* darker yellow: #FFEA96 */
+
+  /** Fonts **/
+  --font-jersey10: "Jersey 10", "sans-serif";
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #171429;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button {
+  cursor: pointer;
+}
