@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+
 import Navbar from "./components/NavBar/NavBar";
 import Landing from "./sections/Landing";
 import About from "./sections/About";
@@ -7,6 +8,9 @@ import Tracks from "./sections/Tracks";
 import Schedule from "./sections/Schedule";
 import FAQ from "./sections/FAQ";
 import Home from "./sections/Home";
+import MLHBadge from "./components/MLHBadge";
+import ScrollBarTrack from "./components/ScrollBar/ScrollBarTrack";
+// import ScrollBar from "./components/ScrollBar/ScrollBar";
 
 function App() {
   const [landingActive, setlandingActive] = useState(false);
@@ -36,17 +40,28 @@ function App() {
   }, []);
 
   return (
-    <div className="w-full h-full">
-      <Navbar />
-      {landingActive ? <Home /> : <Landing opacity={landingOpacity} />}
+    <>
+      <div className="relative w-full">
+        <MLHBadge />
 
-      <div className="bg-gradient-to-b from-purple2 to-purple1">
-        <About className="" />
-        <Tracks className="" />
-        <Schedule className="" />
-        <FAQ className="" />
+        <ScrollBarTrack />
+
+        {/* ScrollBar */}
+
+        <Navbar />
+
+        {/* Main Content */}
+        <div className="h-full">
+          {landingActive ? <Home /> : <Landing opacity={landingOpacity} />}
+          <div className="bg-gradient-to-b from-purple3 to-purple2">
+            <About className="" />
+            <Tracks className="" />
+            <Schedule className="" />
+            <FAQ className="" />
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

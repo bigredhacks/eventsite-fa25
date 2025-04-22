@@ -4,7 +4,7 @@ interface LandingProps {
 
 const Landing: React.FC<LandingProps> = ({ opacity }) => {
   return (
-    <div className="h-[150vh] bg-purple2">
+    <div className="h-[150vh] bg-purple3">
       <div
         className="h-[100vh] fixed flex items-end justify-start p-12"
         style={{ opacity }}

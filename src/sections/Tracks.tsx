@@ -7,6 +7,7 @@ const Tracks: React.FC<SectionProps> = ({ className }) => {
       className={`min-h-screen h-[100vh] 
         flex items-center justify-center 
         bg-transparent
+        px-24
          ${className ?? ""}`}
     >
       <div className="font-jersey10">
