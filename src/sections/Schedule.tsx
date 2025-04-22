@@ -7,7 +7,7 @@ const Schedule: React.FC<SectionProps> = ({ className }) => {
       className={`min-h-screen h-[100vh] 
         flex items-center justify-center 
         bg-transparent
-        p-12
+        px-24
          ${className ?? ""}`}
     >
       <div className="w-full md:mr-18 font-jersey10 text-right">

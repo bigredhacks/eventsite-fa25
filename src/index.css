@@ -3,10 +3,13 @@
 
 @theme {
   /** Colors **/
-  --color-purple1: #403b66; /* medium purple #403B66 */
-  --color-purple2: #1d1a33; /* dark purple: #1D1A33 */
+  --color-purple1: #b7bcec; /* light purple: #B7BCEC */
+  --color-purple2: #403b66; /* medium purple #403B66 */
+  --color-purple3: #1d1a33; /* dark purple: #1D1A33 */
+
   --color-white1: #efefef; /* lighter white: #EFEFEF */
   --color-white2: #d5d5d5; /* darker white: #D5D5D5 */
+
   --color-yellow1: #fffada; /* lighter yellow: #FFFADA */
   --color-yellow2: #ffea96; /* darker yellow: #FFEA96 */
 
@@ -27,6 +30,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+:root::-webkit-scrollbar {
+  display: none;
 }
 
 body {

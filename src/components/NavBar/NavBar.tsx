@@ -45,7 +45,7 @@ const NavBar: React.FC = () => {
     <div
       className={`
         fixed top-0 w-full z-50 h-fit 
-        bg-purple2/5 text-white2 font-jersey10 py-4 px-12
+        bg-purple3/50 text-white2 font-jersey10 py-4 pl-12 pr-38
         transition-transform duration-500 
          ${show ? "translate-y-0" : "-translate-y-full"}`}
       //  duration-500 determines speed of NavBar moving
@@ -75,7 +75,7 @@ const NavBar: React.FC = () => {
             className="text-yellow2 
               border border-yellow2 rounded-full 
               px-8 py-1 -mx-3
-              hover:bg-yellow2 hover:text-purple2 transition"
+              hover:bg-yellow2 hover:text-purple3 transition"
           >
             Apply
           </button>
