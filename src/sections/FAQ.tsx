@@ -1,6 +1,13 @@
 import { SectionProps } from "./SectionProps";
+import Accordion from "../components/Accordian";
+import { faqData } from "../config/config";
 
 const FAQ: React.FC<SectionProps> = ({ className }) => {
+  const accordionItems = faqData.map(item => ({
+    title: item.question,
+    content: item.answer
+  }));
+
   return (
     <section
       id="faq"
@@ -12,9 +19,7 @@ const FAQ: React.FC<SectionProps> = ({ className }) => {
     >
       <div className="w-full md:ml-18 font-jersey10 text-left">
         <h2 className="text-6xl text-yellow2">FAQ</h2>
-        <p className="w-full md:w-1/2 mr-auto text-2xl">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
+        <Accordion items={accordionItems} />
       </div>
     </section>
   );
