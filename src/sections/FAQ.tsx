@@ -11,10 +11,11 @@ const FAQ: React.FC<SectionProps> = ({ className }) => {
   return (
     <section
       id="faq"
-      className={`min-h-screen h-[100vh] 
-        flex items-center justify-center 
+      className={`min-h-screen
+        flex justify-center 
         bg-transparent
         px-24
+        py-12
          ${className ?? ""}`}
     >
       <div className="w-full md:mx-18 font-jersey10 text-left">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Arrow from "../assets/arrow.png";
+import Arrow from "@/assets/arrow.png";
 
 interface AccordionItem {
   title: string;
@@ -20,10 +20,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
   return (
     <div className="w-full">
       {items.map((item, index) => (
-        <div
-          key={index}
-          className="bg-grey1 opacity-67 w-full text-2xl rounded-lg p-8 mt-4"
-        >
+        <div key={index} className="bg-grey1/50 text-2xl rounded-lg p-6 mt-4">
           <div
             className="flex justify-between items-center cursor-pointer"
             onClick={() => toggleAccordion(index)}
@@ -33,13 +30,21 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
               <img
                 src={Arrow}
                 alt="arrow"
-                className={`w-8 h-8 transform transition-transform duration-300 ${
+                // duration determines speed of arrow rotation
+                className={`w-8 h-8 transition-transform duration-500 ${
                   activeIndex === index ? "rotate-180" : ""
                 }`}
               />
             </button>
           </div>
-          {activeIndex === index && <p className="mt-4">{item.content}</p>}
+          <div
+            // duration determines speed of content display toggle
+            className={`overflow-hidden duration-500 ${
+              activeIndex === index ? "max-h-96" : "max-h-0"
+            }`}
+          >
+            <p className="opacity-100">{item.content}</p>
+          </div>
         </div>
       ))}
     </div>

@@ -1,0 +1,21 @@
+import { SectionProps } from "./SectionProps";
+
+const Sponsors: React.FC<SectionProps> = ({ className }) => {
+  return (
+    <section
+      id="tracks"
+      className={`min-h-screen h-[100vh] 
+        flex items-center justify-center 
+        bg-transparent
+        px-24
+        py-12
+         ${className ?? ""}`}
+    >
+      <div className="font-jersey10">
+        <h2 className="text-6xl text-yellow2">SPONSORS</h2>
+      </div>
+    </section>
+  );
+};
+
+export default Sponsors;

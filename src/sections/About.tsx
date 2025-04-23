@@ -8,6 +8,7 @@ const About: React.FC<SectionProps> = ({ className }) => {
         flex items-center justify-end text-right
         bg-transparent
         px-24
+        py-12
          ${className ?? ""}`}
     >
       <div className="w-full md:mr-18 font-jersey10 text-right space-y-4">
