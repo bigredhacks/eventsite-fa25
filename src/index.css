@@ -12,6 +12,8 @@
 
   --color-yellow1: #fffada; /* lighter yellow: #FFFADA */
   --color-yellow2: #ffea96; /* darker yellow: #FFEA96 */
+  
+  --color-grey1: #8d8d8d; /* lighter grey: #8D8D8D */
 
   /** Fonts **/
   --font-jersey10: "Jersey 10", "sans-serif";
