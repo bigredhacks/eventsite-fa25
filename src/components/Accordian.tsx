@@ -25,7 +25,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
             className="flex justify-between items-center cursor-pointer"
             onClick={() => toggleAccordion(index)}
           >
-            <h3 className="text-4xl text-yellow1">{item.title}</h3>
+            <h3 className="text-3xl text-yellow1">{item.title}</h3>
             <button>
               <img
                 src={Arrow}

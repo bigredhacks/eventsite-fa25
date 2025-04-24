@@ -43,11 +43,13 @@ function App() {
   return (
     <>
       <div className="relative w-full">
-        <MLHBadge />
+        <div className="hidden md:block">
+          <MLHBadge />
 
-        <ScrollBarTrack />
+          <ScrollBarTrack />
 
-        {/* ScrollBar */}
+          {/* ScrollBar */}
+        </div>
 
         <Navbar />
 
@@ -61,6 +63,7 @@ function App() {
             <FAQ className="" />
             <Sponsors className="" />
           </div>
+          {/* Footer */}
         </div>
       </div>
     </>

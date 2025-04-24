@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import NavButton from "./NavButton";
 import brhLogoWhite from "@/assets/brh_logo_white.png";
+import menuOpenButton from "@/assets/menu_open.png";
+import menuCloseButton from "@/assets/menu_close.png";
+import NavButtonSet from "./NavButtonSet";
 
 const NavBar: React.FC = () => {
   const [show, setShow] = useState(true);
@@ -24,6 +27,7 @@ const NavBar: React.FC = () => {
       if (Math.abs(scrollDelta) < threshold) {
         return; // No change during minor scrolling
       }
+      setIsMobileMenuOpen(false); // Hide Mobile Menu because scrolling detected
       if (scrollDelta > 0) {
         setShow(false); // Scrolling down: hide
       } else {
@@ -45,40 +49,58 @@ const NavBar: React.FC = () => {
     <div
       className={`
         fixed top-0 w-full z-50 h-fit 
-        bg-purple3/50 text-white2 font-jersey10 py-4 pl-12 pr-38
+        bg-purple3/50 text-white2 font-jersey10
+        md:py-4 py-4
+        md:pl-6 pl-6
+        md:pr-36 pr-8
         transition-transform duration-500 
          ${show ? "translate-y-0" : "-translate-y-full"}`}
       //  duration-500 determines speed of NavBar moving
     >
-      <div className="flex items-center justify-between">
-        <img src={brhLogoWhite} alt="BRH logo" className="h-18" />
-        <div className="flex gap-12 text-2xl">
-          <NavButton targetId="about" setDisableHideUntil={setDisableHideUntil}>
-            About
-          </NavButton>
-          <NavButton
-            targetId="tracks"
+      {/* NavBar Top Row */}
+      <div className="flex items-center justify-between px-4 py-4">
+        <img src={brhLogoWhite} alt="BRH logo" className="md:h-18 h-12 z-100" />
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex gap-[2.5vw] text-2xl items-center">
+          <NavButtonSet
             setDisableHideUntil={setDisableHideUntil}
-          >
-            Tracks
-          </NavButton>
-          <NavButton
-            targetId="schedule"
+            onLinkClick={toggleMobileMenu}
+          />
+        </div>
+
+        {/* Mobile Toggle NavBar Button */}
+        <button
+          onClick={toggleMobileMenu}
+          className="transition-transform duration-300 ease-in-out md:h-18 h-12 z-100"
+        >
+          <img
+            src={isMobileMenuOpen ? menuCloseButton : menuOpenButton}
+            className={`transform transition-transform duration-300 ease-in-out ${
+              isMobileMenuOpen ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      </div>
+
+      {/* Mobile Dropdown Menu */}
+      <div
+        className={`
+          md:hidden overflow-hidden fixed top-0 left-0
+          w-full z-90
+          bg-purple5/95 text-white2 font-jersey10
+          transition-[max-height] duration-500 ease-in-out
+          ${isMobileMenuOpen ? "max-h-[100vh]" : "max-h-0 overflow-hidden"}
+        `}
+      >
+        <div
+          className="flex flex-col items-center justify-end 
+          gap-2.5 pt-24 pb-6 px-6 text-2xl"
+        >
+          <NavButtonSet
             setDisableHideUntil={setDisableHideUntil}
-          >
-            Schedule
-          </NavButton>
-          <NavButton targetId="faq" setDisableHideUntil={setDisableHideUntil}>
-            FAQ
-          </NavButton>
-          <button
-            className="text-yellow2 
-              border border-yellow2 rounded-full 
-              px-8 py-1 -mx-3
-              hover:bg-yellow2 hover:text-purple3 transition"
-          >
-            Apply
-          </button>
+            onLinkClick={toggleMobileMenu}
+          />
         </div>
       </div>
     </div>

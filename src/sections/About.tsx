@@ -5,17 +5,18 @@ const About: React.FC<SectionProps> = ({ className }) => {
     <section
       id="about"
       className={`min-h-screen h-[100vh] 
-        flex items-center justify-end text-right
+        flex items-start justify-end text-right
         bg-transparent
-        px-24
-        py-12
+        md:px-24 px-8
+        md:py-12 py-6
+        md:pt-40 pt-40
          ${className ?? ""}`}
     >
       <div className="w-full md:mr-18 font-jersey10 text-right space-y-4">
         {/* Title */}
         <h2 className="text-6xl text-yellow2">ABOUT</h2>
         {/* Blurb */}
-        <div className="md:w-1/2 ml-auto text-2xl space-y-3">
+        <div className="w-full md:w-3/4 ml-auto text-2xl space-y-3">
           <p>
             BigRed//Hacks is Cornell’s largest student-run hackathon, happening
             this September. It’s a 24-hour event where students come together to
