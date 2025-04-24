@@ -9,10 +9,22 @@ const Landing: React.FC<LandingProps> = ({ opacity }) => {
         className="h-[100vh] fixed flex items-end justify-start p-12"
         style={{ opacity }}
       >
-        <div className="mb-12 ml-12">
-          <h2 className="text-9xl font-jersey10 text-yellow1">BigRed//</h2>
-          <h2 className="text-9xl font-jersey10 text-yellow1">Hacks 2025</h2>
+        {/*  */}
+        <div
+          className="
+    mb-4 ml-4 md:mb-12 md:ml-12 
+    text-8xl md:text-9xl 
+    font-jersey10 text-yellow1"
+        >
+          <h2>BigRed//</h2>
+
+          <div className="flex flex-wrap items-end gap-x-18">
+            <p className="align-text-bottom">Hacks 2025</p>
+            <p className="text-6xl md:text-7xl text-yellow2 pb-3">9/19 - 9/21</p>
+          </div>
         </div>
+
+        {/*  */}
       </div>
     </div>
   );

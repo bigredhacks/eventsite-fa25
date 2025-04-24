@@ -4,7 +4,7 @@ import NavButton from "./NavButton";
 
 type Props = {
   setDisableHideUntil: React.Dispatch<React.SetStateAction<number>>;
-  onLinkClick?: () => void; // Optional: use this to close mobile menu
+  onLinkClick?: () => void;
 };
 
 const NavButtonSet: React.FC<Props> = ({

@@ -20,7 +20,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
   return (
     <div className="w-full">
       {items.map((item, index) => (
-        <div key={index} className="bg-grey1/50 text-2xl rounded-lg p-6 mt-4">
+        <div key={index} className="bg-grey1/50 text-2xl rounded-lg p-4 mt-4">
           <div
             className="flex justify-between items-center cursor-pointer"
             onClick={() => toggleAccordion(index)}

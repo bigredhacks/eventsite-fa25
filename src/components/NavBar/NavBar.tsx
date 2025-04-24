@@ -26,13 +26,12 @@ const NavBar: React.FC = () => {
       if (Math.abs(scrollDelta) < threshold) {
         return; // No change during minor scrolling
       }
-      setIsMobileMenuOpen(false); // Hide Mobile Menu because scrolling detected
       if (scrollDelta > 0) {
         setShow(false); // Scrolling down: hide
       } else {
         setShow(true); // Scrolling up: show
       }
-
+      setIsMobileMenuOpen(false); // Hide Mobile Menu because scrolling detected
       setLastScrollY(currentScrollY);
     };
 
