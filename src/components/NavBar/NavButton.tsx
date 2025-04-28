@@ -6,6 +6,7 @@ type NavButtonProps = {
   children: React.ReactNode;
   className?: string;
   setDisableHideUntil?: (time: number) => void;
+  onClick?: () => void;
 };
 
 const NavButton: React.FC<NavButtonProps> = ({
@@ -13,6 +14,7 @@ const NavButton: React.FC<NavButtonProps> = ({
   children,
   className,
   setDisableHideUntil,
+  onClick,
 }) => {
   const handleClick = () => {
     const section = document.getElementById(targetId);
@@ -24,6 +26,7 @@ const NavButton: React.FC<NavButtonProps> = ({
       const targetY = section.getBoundingClientRect().top + window.scrollY;
       smoothScrollTo(targetY, scrollSpeed);
     }
+    if (onClick) onClick();
   };
 
   return (

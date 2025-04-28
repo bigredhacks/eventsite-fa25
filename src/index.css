@@ -6,13 +6,15 @@
   --color-purple1: #b7bcec; /* light purple: #B7BCEC */
   --color-purple2: #403b66; /* medium purple #403B66 */
   --color-purple3: #1d1a33; /* dark purple: #1D1A33 */
+  --color-purple4: #9e51ce; /* pink purple: #9E51CE */
+  --color-purple5: #3c2d6c; /* mobile menu: #3C2D6C */
 
   --color-white1: #efefef; /* lighter white: #EFEFEF */
   --color-white2: #d5d5d5; /* darker white: #D5D5D5 */
 
   --color-yellow1: #fffada; /* lighter yellow: #FFFADA */
   --color-yellow2: #ffea96; /* darker yellow: #FFEA96 */
-  
+
   --color-grey1: #8d8d8d; /* lighter grey: #8D8D8D */
 
   /** Fonts **/

@@ -7,6 +7,7 @@ import About from "./sections/About";
 import Tracks from "./sections/Tracks";
 import Schedule from "./sections/Schedule";
 import FAQ from "./sections/FAQ";
+import Sponsors from "./sections/Sponsors";
 import Home from "./sections/Home";
 import MLHBadge from "./components/MLHBadge";
 import ScrollBarTrack from "./components/ScrollBar/ScrollBarTrack";
@@ -43,24 +44,28 @@ function App() {
   return (
     <>
       <div className="relative w-full">
-        <MLHBadge />
+        <div className="hidden md:block">
+          <MLHBadge />
 
-        <ScrollBarTrack />
+          <ScrollBarTrack />
 
-        {/* ScrollBar */}
+          {/* ScrollBar */}
+        </div>
 
         <Navbar />
 
         {/* Main Content */}
         <div className="h-full">
           {landingActive ? <Home /> : <Landing opacity={landingOpacity} />}
-          <div className="bg-gradient-to-b from-purple3 to-purple2">
+          <div className="bg-gradient-to-b from-purple3 to-purple4">
             <About className="" />
             <Tracks className="" />
             <Schedule className="" />
             <FAQ className="" />
-            <Footer/>
+            <Sponsors className="" />
           </div>
+          {/* Footer */}
+          <Footer/>
         </div>
       </div>
     </>
