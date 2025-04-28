@@ -1,5 +1,5 @@
-import { FaInstagram, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import brhLogoWhite from '@/assets/brh_logo_white.png';
+import { FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import brhLogoWhite from "@/assets/brh_logo_white.png";
 
 export default function Footer() {
   return (
@@ -10,7 +10,9 @@ export default function Footer() {
             <img src={brhLogoWhite} alt="Big Red Hacks Logo" className="h-16" />
           </div>
           <p className="text-lg font-semibold">Made with ❤️ by BigRed//Hacks</p>
-          <p className="text-md">Registered Student Organization of Cornell University</p>
+          <p className="text-md">
+            Registered Student Organization of Cornell University
+          </p>
           <p className="text-md">MLH Code of Conduct</p>
         </div>
 
