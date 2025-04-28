@@ -11,6 +11,7 @@ import Sponsors from "./sections/Sponsors";
 import Home from "./sections/Home";
 import MLHBadge from "./components/MLHBadge";
 import ScrollBarTrack from "./components/ScrollBar/ScrollBarTrack";
+import Footer from "./sections/Footer";
 // import ScrollBar from "./components/ScrollBar/ScrollBar";
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
             <Sponsors className="" />
           </div>
           {/* Footer */}
+          <Footer/>
         </div>
       </div>
     </>
