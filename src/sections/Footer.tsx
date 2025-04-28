@@ -26,13 +26,13 @@ export default function Footer() {
         {/* Logos */}
         <div className="flex space-x-4 mr-0.5">
           <a href="#" aria-label="Instagram">
-            <FaInstagram className="text-2xl" />
+            <FaInstagram className="text-2xl hover:opacity-80" />
           </a>
           <a href="#" aria-label="LinkedIn">
-            <FaLinkedin className="text-2xl" />
+            <FaLinkedin className="text-2xl hover:opacity-80" />
           </a>
           <a href="#" aria-label="Email">
-            <FaEnvelope className="text-2xl" />
+            <FaEnvelope className="text-2xl hover:opacity-80" />
           </a>
         </div>
       </div>
