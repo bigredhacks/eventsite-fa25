@@ -10,6 +10,7 @@ import FAQ from "./sections/FAQ";
 import Home from "./sections/Home";
 import MLHBadge from "./components/MLHBadge";
 import ScrollBarTrack from "./components/ScrollBar/ScrollBarTrack";
+import Footer from "./sections/Footer";
 // import ScrollBar from "./components/ScrollBar/ScrollBar";
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
             <Tracks className="" />
             <Schedule className="" />
             <FAQ className="" />
+            <Footer/>
           </div>
         </div>
       </div>
