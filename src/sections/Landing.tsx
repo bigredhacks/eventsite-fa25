@@ -20,7 +20,9 @@ const Landing: React.FC<LandingProps> = ({ opacity }) => {
 
           <div className="flex flex-wrap items-end gap-x-18">
             <p className="align-text-bottom">Hacks 2025</p>
-            <p className="text-6xl md:text-7xl text-yellow2 pb-3">9/19 - 9/21</p>
+            <p className="text-6xl md:text-7xl text-yellow2 pb-3">
+              9/19 - 9/21
+            </p>
           </div>
         </div>
 
