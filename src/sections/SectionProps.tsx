@@ -1,3 +1,3 @@
 export type SectionProps = {
-  className: string;
+  className?: string;
 };

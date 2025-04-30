@@ -1,6 +1,6 @@
 const ScrollBarTrack: React.FC = () => {
   return (
-    <div className="hidden md:block absolute top-32 bottom-32 right-14 w-4 bg-purple1 rounded-full z-10 pointer-events-none" />
+    <div className="absolute top-0 bottom-16 right-14 w-4 bg-purple7/50 rounded-full z-10 pointer-events-none select-none" />
   );
 };
 
