@@ -40,12 +40,12 @@ const Home: React.FC<HomeProps> = ({ landing2Active, progress }) => {
           />
         </div>
         {/* Mobile Clouds */}
-        <div className="block md:hidden absolute bottom-0 left-0 w-[200vw] h-[20vh] z-50">
+        <div className="block md:hidden absolute bottom-0 left-0 w-[180vw] h-[20vh] z-50">
           <img
             src={cloudsStars}
             alt="clouds"
             className="absolute pointer-events-none select-none
-            top-0 -left-[50vw] w-[200vw] h-auto z-10"
+            -top-[0vh] -left-[20vw] w-[180vw] h-auto z-10"
             style={landing2Active ? {} : { opacity: bigCloudsOpacity }}
           />
         </div>

@@ -14,7 +14,7 @@ const Tracks: React.FC<SectionProps> = ({ className }) => {
         md:pt-40 pt-40
          ${className ?? ""}`}
     >
-      <div className="w-[140vw] h-[100vh] z-10">
+      <div className="w-[140vw] md:h-[100vh] z-10">
         <img
           src={arcade}
           alt="arcade"
@@ -25,7 +25,7 @@ const Tracks: React.FC<SectionProps> = ({ className }) => {
       <div className="font-jersey10 z-20">
         <h2 className="text-6xl text-yellow2">TRACKS</h2>
       </div>
-      <div className="h-[50vh]"></div>
+      <div className="h-[50vh]">{/* TODO */}</div>
     </section>
   );
 };
