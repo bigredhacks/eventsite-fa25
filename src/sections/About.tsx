@@ -1,22 +1,24 @@
 import { SectionProps } from "./SectionProps";
+import rocket from "@/assets/rocket.png";
 
 const About: React.FC<SectionProps> = ({ className }) => {
   return (
     <section
       id="about"
       className={`
-        flex items-start justify-start text-left
+        md:flex items-start justify-start text-left
+
         bg-transparent
         md:px-24 px-8
         md:py-24 py-6
         md:pt-60 pt-40
          ${className ?? ""}`}
     >
-      <div className="w-full font-jersey10 text-left">
+      <div className="w-full md:w-7/11 mr-auto font-jersey10 text-left">
         {/* Title */}
         <h2 className="text-6xl text-yellow2 p-4">ABOUT</h2>
         {/* Blurb */}
-        <div className="w-full md:w-7/11 mr-auto text-xl space-y-3 font-sans bg-purple3/50 p-6 rounded-lg ">
+        <div className="w-full text-xl space-y-3 font-sans bg-purple3/50 p-6 rounded-lg">
           <p>
             BigRed//Hacks is Cornell’s{" "}
             <span className="font-bold text-yellow1">
@@ -45,6 +47,9 @@ const About: React.FC<SectionProps> = ({ className }) => {
             short amount of time.
           </p>
         </div>
+      </div>
+      <div className="md:w-4/11 flex items-center justify-center">
+        <img src={rocket} alt="rocket" className="max-h-[60vh] w-auto" />
       </div>
     </section>
   );

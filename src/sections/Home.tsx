@@ -1,4 +1,6 @@
-import cloudsXL from "@/assets/clouds_xl.png";
+import cloudsStars from "@/assets/clouds_stars.png";
+// import cloudsXL from "@/assets/clouds_xl.png";
+// import stars from "@/assets/star_deco.png";
 import Landing1 from "./Landing1";
 import Landing2 from "./Landing2";
 
@@ -30,20 +32,20 @@ const Home: React.FC<HomeProps> = ({ landing2Active, progress }) => {
         {/* Desktop Clouds */}
         <div className="hidden md:block absolute bottom-0 left-0 w-[150vw] h-[50vh] z-50">
           <img
-            src={cloudsXL}
+            src={cloudsStars}
             alt="clouds"
             className="absolute pointer-events-none select-none
-            -top-[20%] md:-top-[60%] -left-[10vw] w-[150vw] h-auto"
+            -top-[60%] -left-[25vw] w-[150vw] z-10"
             style={landing2Active ? {} : { opacity: bigCloudsOpacity }}
           />
         </div>
         {/* Mobile Clouds */}
         <div className="block md:hidden absolute bottom-0 left-0 w-[200vw] h-[20vh] z-50">
           <img
-            src={cloudsXL}
+            src={cloudsStars}
             alt="clouds"
             className="absolute pointer-events-none select-none
-            top-0 -left-[10vw] w-[200vw] h-auto"
+            top-0 -left-[50vw] w-[200vw] h-auto z-10"
             style={landing2Active ? {} : { opacity: bigCloudsOpacity }}
           />
         </div>
