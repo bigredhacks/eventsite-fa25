@@ -11,11 +11,12 @@ import Home from "./sections/Home";
 import MLHBadge from "./components/MLHBadge";
 import ScrollBarTrack from "./components/ScrollBar/ScrollBarTrack";
 import Footer from "./sections/Footer";
-// import ScrollBar from "./components/ScrollBar/ScrollBar";
+import ScrollBar from "./components/ScrollBar/ScrollBar";
 
 function App() {
   const [landing2Active, setLanding2Active] = useState(false);
   const [landingProgress, setLandingProgress] = useState(1);
+  const [scrollRatio, setScrollRatio] = useState(0);
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
@@ -34,9 +35,18 @@ function App() {
       // Opacity for landing page when scrolling
       const landingProgress = 1 - Math.min(scrollY / vh, 1);
       setLandingProgress(landingProgress);
+
+      const homeHeight = 1.5 * vh;
+      const maxPageScroll = document.body.scrollHeight - window.innerHeight;
+      const effective = Math.max(0, scrollY - homeHeight);
+      const trackScrollSpan = maxPageScroll - homeHeight;
+      const ratio =
+        trackScrollSpan > 0 ? Math.min(effective / trackScrollSpan, 1) : 0;
+      setScrollRatio(ratio);
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -52,16 +62,19 @@ function App() {
           <Home landing2Active={landing2Active} progress={landingProgress} />
           <div className="relative bg-gradient-to-b from-purple3 to-purple4">
             {/* ScrollBar */}
-            <ScrollBarTrack />
+            <div className="hidden md:block">
+              <ScrollBar ratio={scrollRatio} />
+              <ScrollBarTrack />
+            </div>
 
+            {/* Main Content */}
             <About className="" />
             <Tracks className="" />
             <Schedule className="" />
             <FAQ className="" />
             <Sponsors className="" />
+            <Footer />
           </div>
-          {/* Footer */}
-          <Footer />
         </div>
       </div>
     </>
