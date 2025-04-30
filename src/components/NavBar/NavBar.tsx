@@ -57,7 +57,7 @@ const NavBar: React.FC = () => {
   return (
     <div
       className={`
-        fixed top-0 w-full z-50 h-fit 
+        fixed top-0 w-full z-100 h-fit 
         bg-purple3/50 text-white2 font-jersey10
         md:py-2 py-2
         md:pl-6 pl-6

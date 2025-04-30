@@ -44,20 +44,17 @@ function App() {
   return (
     <>
       <div className="relative w-full">
-        <div className="hidden md:block">
-          <MLHBadge />
-
-          <ScrollBarTrack />
-
-          {/* ScrollBar */}
-        </div>
+        <MLHBadge />
 
         <Navbar />
 
         {/* Main Content */}
         <div className="h-full">
           {landingActive ? <Home /> : <Landing opacity={landingOpacity} />}
-          <div className="bg-gradient-to-b from-purple3 to-purple4">
+          <div className="relative bg-gradient-to-b from-purple3 to-purple4 z-20">
+            {/* ScrollBar */}
+            <ScrollBarTrack />
+
             <About className="" />
             <Tracks className="" />
             <Schedule className="" />
@@ -65,7 +62,7 @@ function App() {
             <Sponsors className="" />
           </div>
           {/* Footer */}
-          <Footer/>
+          <Footer />
         </div>
       </div>
     </>
