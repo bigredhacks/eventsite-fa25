@@ -28,7 +28,9 @@ function App() {
       const vh = window.innerHeight;
 
       // 1 (100vh) + 0.5 (extra space)
-      if (scrollY >= (1 + 0.5) * vh) {
+      const isMobile = window.innerWidth < 768;
+      const multiplier = isMobile ? 1 : 1.5;
+      if (scrollY >= multiplier * vh) {
         setLanding2Active(true);
       }
 
