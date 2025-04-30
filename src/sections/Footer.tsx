@@ -6,33 +6,48 @@ export default function Footer() {
     <div
       className="w-full flex flex-col md:flex-row 
                  bg-purple6 font-sans font-semibold text-black
-                 justify-between items-center px-36 py-8"
+                 justify-between items-end
+                 md:px-36 px-12
+                 pt-8 pb-12"
     >
       {/* Left Section */}
       <div className="flex flex-col items-start space-y-4">
-        <img src={brhLogoBlack} alt="Big Red Hacks Logo" className="h-16" />
-        <p className="text-2xl">Made with ❤️ by BigRed//Hacks</p>
+        <img
+          src={brhLogoBlack}
+          alt="Big Red Hacks Logo"
+          className="h-16 pointer-events-none select-none"
+        />
+        <p className="text-2xl pointer-events-none select-none">
+          Made with ❤️ by BigRed//Hacks
+        </p>
         <div className="flex flex-col space-y-1">
-          <p className="text-lg">
+          <p className="text-lg pointer-events-none select-none">
             Registered Student Organization of Cornell University
           </p>
-          <p className="text-lg">MLH Code of Conduct</p>
+          <a
+            href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf?_gl=1*aykpld*_ga*MTI2NDQwNTA1OS4xNzQ1MjcwNzEw*_ga_E5KT6TC4TK*MTc0NjAwNjIwNy43LjAuMTc0NjAwNjIwNy4wLjAuMA.."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-fit text-lg hover:text-purple5"
+          >
+            MLH Code of Conduct
+          </a>
         </div>
       </div>
 
       {/* Right Section */}
-      <div className="flex flex-col items-end space-y-4">
+      <div className="flex flex-col items-end space-y-4 mt-4 md:mt-0">
         <p className="text-lg font-semibold">contact us!</p>
         {/* Logos */}
         <div className="flex space-x-4 mr-0.5">
           <a href="#" aria-label="Instagram">
-            <FaInstagram className="text-2xl hover:opacity-80" />
+            <FaInstagram className="text-2xl hover:text-purple5 hover:opacity-80" />
           </a>
           <a href="#" aria-label="LinkedIn">
-            <FaLinkedin className="text-2xl hover:opacity-80" />
+            <FaLinkedin className="text-2xl hover:text-purple5 hover:opacity-80" />
           </a>
           <a href="#" aria-label="Email">
-            <FaEnvelope className="text-2xl hover:opacity-80" />
+            <FaEnvelope className="text-2xl hover:text-purple5 hover:opacity-80" />
           </a>
         </div>
       </div>
