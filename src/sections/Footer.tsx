@@ -15,20 +15,20 @@ export default function Footer() {
         <img
           src={brhLogoBlack}
           alt="Big Red Hacks Logo"
-          className="h-16 pointer-events-none select-none"
+          className="md:h-16 h-12 pointer-events-none select-none"
         />
-        <p className="text-2xl pointer-events-none select-none">
+        <p className="md:text-2xl text-lg pointer-events-none select-none">
           Made with ❤️ by BigRed//Hacks
         </p>
-        <div className="flex flex-col space-y-1">
-          <p className="text-lg pointer-events-none select-none">
+        <div className="flex flex-col space-y-1 md:text-lg">
+          <p className=" pointer-events-none select-none">
             Registered Student Organization of Cornell University
           </p>
           <a
             href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf?_gl=1*aykpld*_ga*MTI2NDQwNTA1OS4xNzQ1MjcwNzEw*_ga_E5KT6TC4TK*MTc0NjAwNjIwNy43LjAuMTc0NjAwNjIwNy4wLjAuMA.."
             target="_blank"
             rel="noopener noreferrer"
-            className="w-fit text-lg hover:text-purple5"
+            className="w-fit hover:text-purple5"
           >
             MLH Code of Conduct
           </a>
@@ -37,7 +37,7 @@ export default function Footer() {
 
       {/* Right Section */}
       <div className="flex flex-col items-end space-y-4 mt-4 md:mt-0">
-        <p className="text-lg font-semibold">contact us!</p>
+        <p className="md:text-lg font-semibold">contact us!</p>
         {/* Logos */}
         <div className="flex space-x-4 mr-0.5">
           <a

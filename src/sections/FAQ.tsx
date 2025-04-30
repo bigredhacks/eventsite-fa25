@@ -11,7 +11,7 @@ const FAQ: React.FC<SectionProps> = ({ className }) => {
   return (
     <section
       id="faq"
-      className={`min-h-screen
+      className={`
         flex justify-start 
         bg-transparent
         md:px-24 px-8

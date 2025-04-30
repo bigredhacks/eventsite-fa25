@@ -5,7 +5,7 @@ const Schedule: React.FC<SectionProps> = ({ className }) => {
   return (
     <section
       id="schedule"
-      className={`min-h-screen 
+      className={`
         flex items-center justify-center 
         bg-transparent
         md:px-24 px-8
