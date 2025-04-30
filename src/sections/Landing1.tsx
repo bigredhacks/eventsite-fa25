@@ -27,7 +27,7 @@ const Landing: React.FC<LandingProps> = ({ progress }) => {
       style={{ opacity: progress }}
     >
       {/* Mobile Text */}
-      <div className="block md:hidden absolute top-32 right-8 text-7xl z-50">
+      <div className="block md:hidden absolute top-32 right-8 text-7xl z-60">
         <div className="text-right">
           <h2>BigRed//</h2>
           <h2>Hacks 2025</h2>
@@ -36,7 +36,7 @@ const Landing: React.FC<LandingProps> = ({ progress }) => {
       </div>
       {/* Desktop Text */}
       <div
-        className="hidden md:block mt-[15vh] ml-[20%] text-9xl z-50"
+        className="hidden md:block mt-[15vh] ml-[20%] text-9xl z-60"
         // bg-purple3/20 rounded-4xl p-6
         style={{ transform: `translateX(-${movement * slowMoveSpeed}vw)` }}
       >
