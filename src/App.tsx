@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 import Navbar from "./components/NavBar/NavBar";
-import Landing from "./sections/Landing";
 import About from "./sections/About";
 import Tracks from "./sections/Tracks";
 import Schedule from "./sections/Schedule";
@@ -15,8 +14,8 @@ import Footer from "./sections/Footer";
 // import ScrollBar from "./components/ScrollBar/ScrollBar";
 
 function App() {
-  const [landingActive, setlandingActive] = useState(false);
-  const [landingOpacity, setLandingOpacity] = useState(1);
+  const [landing2Active, setLanding2Active] = useState(false);
+  const [landingProgress, setLandingProgress] = useState(1);
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
@@ -29,12 +28,12 @@ function App() {
 
       // 1 (100vh) + 0.5 (extra space)
       if (scrollY >= (1 + 0.5) * vh) {
-        setlandingActive(true);
+        setLanding2Active(true);
       }
 
       // Opacity for landing page when scrolling
-      const newOpacity = 1 - Math.min(scrollY / vh, 1);
-      setLandingOpacity(newOpacity);
+      const landingProgress = 1 - Math.min(scrollY / vh, 1);
+      setLandingProgress(landingProgress);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -50,8 +49,8 @@ function App() {
 
         {/* Main Content */}
         <div className="h-full">
-          {landingActive ? <Home /> : <Landing opacity={landingOpacity} />}
-          <div className="relative bg-gradient-to-b from-purple3 to-purple4 z-20">
+          <Home landing2Active={landing2Active} progress={landingProgress} />
+          <div className="relative bg-gradient-to-b from-purple3 to-purple4">
             {/* ScrollBar */}
             <ScrollBarTrack />
 
