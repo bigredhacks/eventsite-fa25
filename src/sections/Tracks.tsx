@@ -4,7 +4,7 @@ const Tracks: React.FC<SectionProps> = ({ className }) => {
   return (
     <section
       id="tracks"
-      className={`min-h-screen h-[100vh] 
+      className={`
         flex items-start justify-center 
         bg-transparent
         md:px-24 px-8

@@ -13,8 +13,8 @@ const Loading: React.FC<LoadingProps> = ({ text, className }) => {
           key={index}
           className="animate-bounce inline-block"
           style={{
-            animationDelay: `${index * 0.1}s`,
-            animationDuration: "1s",
+            animationDelay: `${index * 0.15}s`,
+            animationDuration: "1.5s",
           }}
         >
           {char}
