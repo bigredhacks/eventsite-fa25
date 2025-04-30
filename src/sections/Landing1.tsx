@@ -108,14 +108,24 @@ const Landing: React.FC<LandingProps> = ({ progress }) => {
         alt="bird"
         className="absolute pointer-events-none select-none
           top-[50%] md:left-[30%] w-[2%] h-auto z-40"
-        style={{ transform: `translateX(${movement * mediumMoveSpeed}vw)` }}
+        style={{
+          transform: `
+          translateX(${movement * mediumMoveSpeed}vw)
+          translateY(-${movement * mediumMoveSpeed}vh)
+        `,
+        }}
       />
       <img
         src={bird2}
         alt="bird"
         className="absolute pointer-events-none select-none
           top-[40%] md:right-[10%] w-[3%] h-auto z-40"
-        style={{ transform: `translateX(-${movement * mediumMoveSpeed}vw)` }}
+        style={{
+          transform: `
+          translateX(-${movement * mediumMoveSpeed}vw)
+          translateY(-${movement * mediumMoveSpeed}vh)
+        `,
+        }}
       />
       {/* Assets End */}
     </div>

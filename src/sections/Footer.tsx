@@ -40,13 +40,28 @@ export default function Footer() {
         <p className="text-lg font-semibold">contact us!</p>
         {/* Logos */}
         <div className="flex space-x-4 mr-0.5">
-          <a href="#" aria-label="Instagram">
+          <a
+            href="https://www.instagram.com/bigredhacks/"
+            aria-label="Instagram"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FaInstagram className="text-2xl hover:text-purple5 hover:opacity-80" />
           </a>
-          <a href="#" aria-label="LinkedIn">
+          <a
+            href="https://www.linkedin.com/company/bigredhacks/"
+            aria-label="LinkedIn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FaLinkedin className="text-2xl hover:text-purple5 hover:opacity-80" />
           </a>
-          <a href="#" aria-label="Email">
+          <a
+            href="mailto:bigredhacks@cornell.edu"
+            aria-label="Email bigredhacks@cornell.edu"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FaEnvelope className="text-2xl hover:text-purple5 hover:opacity-80" />
           </a>
         </div>

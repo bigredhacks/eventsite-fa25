@@ -22,7 +22,7 @@ const Home: React.FC<HomeProps> = ({ landing2Active, progress }) => {
             src={cloudsXL}
             alt="clouds"
             className="absolute pointer-events-none select-none
-            -top-[20%] md:-top-[70%] -left-[10vw] w-[150vw] h-auto"
+            -top-[20%] md:-top-[75%] -left-[10vw] w-[150vw] h-auto"
             style={landing2Active ? {} : { opacity: bigCloudsOpacity }}
           />
         </div>
