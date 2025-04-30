@@ -8,12 +8,12 @@ const Schedule: React.FC<SectionProps> = ({ className }) => {
       className={`
         flex items-center justify-center 
         bg-transparent
-        md:px-24 px-8
+        md:px-32 px-8
         md:py-12 py-6
         md:pt-40 pt-40
          ${className ?? ""}`}
     >
-      <div className="w-full md:mx-18 font-jersey10 text-left">
+      <div className="w-full font-jersey10 text-left">
         <h2 className="text-6xl text-yellow2 p-4">SCHEDULE</h2>
         <img
           src={schedule}
