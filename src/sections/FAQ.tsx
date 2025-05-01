@@ -25,8 +25,10 @@ const FAQ: React.FC<SectionProps> = ({ className }) => {
          ${className ?? ""}`}
     >
       <div className="w-full max-w-7xl mx-auto font-jersey10">
-        <h2 className="text-4xl sm:text-5xl md:text-6xl text-yellow2 mb-8 md:mb-12">FAQ</h2>
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl text-yellow2 mb-8 md:mb-12">
+          FAQ
+        </h2>
+        <div className="flex flex-col lg:flex-row lg:gap-8">
           <div className="w-full lg:w-1/2">
             <Accordion items={transformItems(leftColumnData)} />
           </div>
