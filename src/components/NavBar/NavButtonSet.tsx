@@ -49,7 +49,7 @@ const NavButtonSet: React.FC<Props> = ({
         Sponsors
       </NavButton>
       <button
-        onClick={onLinkClick}
+        onClick={() => window.open("https://forms.gle/m7JxdRnVv1ofjnpF6")}
         className="text-yellow2 border border-yellow2 rounded-full px-6 py-1
                  hover:bg-yellow2 hover:text-purple3 transition"
       >
