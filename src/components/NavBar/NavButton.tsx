@@ -1,5 +1,5 @@
 import React from "react";
-import { smoothScrollTo } from "@/utils/smoothScrollTo.tsx";
+import { smoothScrollTo } from "../../utils/smoothScrollTo.tsx";
 
 type NavButtonProps = {
   targetId: string;
