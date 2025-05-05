@@ -1,54 +1,79 @@
-# React + TypeScript + Vite
+# BigRed//Hacks 2025 Event Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A hackathon landing page built with **React**, **TypeScript**, and **Tailwind CSS**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Structure
 
-## Expanding the ESLint configuration
+### `/components/`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+UI components
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+#### `NavBar/`
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- `NavBar.tsx`: Navigation bar
+- `NavButton.tsx`: Navigation button
+- `NavButtonSet.tsx`: A set of navigation buttons, including for responsive layouts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+#### `ScrollBar/`
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+- `ScrollBar.tsx`: Custom scrollbar
+- `ScrollBarTrack.tsx`: Visual scrollbar track behind `ScrollBar`
+
+#### Other Components
+
+- `Accordian.tsx`: Expandable/collapsible item used in FAQ
+- `MLHBadge.tsx`: MLH Trust Badge
+- `TrackCard.tsx`: Card displaying a track (used in `Tracks.tsx`)
+- `WaveText.tsx`: Animated bouncing text component for loading sections
+
+---
+
+### `/sections/`
+
+- `Landing1.tsx`, `Landing2.tsx`: Hero sections
+- `About.tsx`: Describes event and our mission
+- `Tracks.tsx`: Displays hackathon tracks using `TrackCard`
+- `Schedule.tsx`: Shows event schedule image
+- `FAQ.tsx`: Frequently asked questions using `Accordian`
+- `Sponsors.tsx`: Sponsor showcase section
+- `Home.tsx`: Main container section that includes the two hero sections
+- `Footer.tsx`: Footer
+- `SectionProps.tsx`: Shared TypeScript props for consistency
+
+---
+
+### `/config/`
+
+- `config.ts`: Static data used by the app (e.g., track definitions, FAQ entries)
+
+---
+
+### `/utils/`
+
+- `smoothScrollTo.tsx`: Utility for animating smooth scrolling behavior on anchor clicks
+
+---
+
+## Tech Stack
+
+- **React** + **TypeScript**
+- **Tailwind CSS**
+- **Vite**
+- **Responsive Design**
+
+---
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
