@@ -60,7 +60,7 @@ const Landing: React.FC<LandingProps> = ({ progress }) => {
           alt="ferris wheel"
           className="absolute pointer-events-none select-none
           md:-bottom-[15%] md:left-[2%] md:max-h-[100vh] w-auto z-0
-          -bottom-[10%] left-0 max-h-[100vh]"
+          -bottom-[5%] left-0 max-h-[100vh]"
           style={{ transform: `translateX(-${movement * slowMoveSpeed}vw)` }}
         />
         <img

@@ -11,7 +11,7 @@ const About: React.FC<SectionProps> = ({ className }) => {
         bg-transparent
         md:px-32 px-8
         md:py-24 py-6
-        md:pt-60 pt-40
+        md:pt-60 pt-60
          ${className ?? ""}`}
     >
       <div className="w-full md:w-1/2 mr-auto font-jersey10 text-left">

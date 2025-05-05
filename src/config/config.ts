@@ -1,7 +1,44 @@
+interface Track {
+  title: string;
+  description: string;
+}
+
 interface FAQItem {
   question: string;
   answer: string;
 }
+
+export const tracks: Track[] = [
+  {
+    title: "BIG RED",
+    description:
+      "The main track judged on technical skill, design, creativity, impact, and theme.",
+  },
+  {
+    title: "HARDWARE",
+    description:
+      "Optional track focused on hardware use and technical implementation.",
+  },
+  {
+    title: "SOFTWARE",
+    description:
+      "Optional track focused on software development and technical depth.",
+  },
+  {
+    title: "DESIGN",
+    description:
+      "Optional track evaluating design quality and visual presentation.",
+  },
+  {
+    title: "BEGINNER",
+    description:
+      "For first-time hackers, rewarding the best overall beginner project.",
+  },
+  {
+    title: "PEOPLE'S CHOICE",
+    description: "Voted on by participants for favorite project overall.",
+  },
+];
 
 export const faqData: FAQItem[] = [
   {
