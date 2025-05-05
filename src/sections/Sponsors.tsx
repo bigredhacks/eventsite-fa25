@@ -2,6 +2,7 @@ import WaveText from "../components/WaveText";
 import { SectionProps } from "./SectionProps";
 import cloudySun from "@/assets/cloudy_sun.png";
 import grass from "@/assets/grass.png";
+import arcade_device from "@/assets/arcade_device.png";
 
 const Sponsors: React.FC<SectionProps> = ({ className }) => {
   return (
@@ -11,7 +12,7 @@ const Sponsors: React.FC<SectionProps> = ({ className }) => {
         flex flex-col items-center justify-center 
         bg-transparent
         md:px-24 px-8
-        md:pt-40 pt-60
+        md:pt-40 pt-40
         font-jersey10
         ${className ?? ""}`}
     >
@@ -28,11 +29,16 @@ const Sponsors: React.FC<SectionProps> = ({ className }) => {
         <WaveText text="loading..." className="mt-24 text-7xl" />
       </div>
 
-      <div className="w-screen mt-auto">
+      <div className="w-screen mt-auto relative">
+        <img
+          src={arcade_device}
+          alt="arcade device"
+          className="md:w-[25vw] w-[40vw] object-cover absolute bottom-0 left-0 pointer-events-none select-none z-0"
+        />
         <img
           src={grass}
           alt="grass"
-          className="w-full object-cover pointer-events-none select-none"
+          className="w-full object-cover pointer-events-none select-none relative z-10"
         />
       </div>
     </section>

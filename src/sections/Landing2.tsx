@@ -17,7 +17,7 @@ const Landing: React.FC<LandingProps> = ({ progress }) => {
   return (
     <>
       <div
-        className="h-[100vh] absolute w-full flex z-50
+        className="h-[100vh] absolute w-full flex
         items-start justify-start md:justify-end
         font-jersey10 text-yellow1"
       >

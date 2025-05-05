@@ -36,7 +36,7 @@ const Schedule: React.FC<SectionProps> = ({ className }) => {
           <img
             src={schedule}
             alt="schedule"
-            className="pointer-events-none select-none w-auto max-h-[100vh] z-40"
+            className="pointer-events-none select-none w-full z-40"
           />
         </div>
       </div>
