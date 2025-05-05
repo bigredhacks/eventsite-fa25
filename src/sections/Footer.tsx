@@ -6,7 +6,7 @@ export default function Footer() {
     <div
       className="w-full flex flex-col md:flex-row 
                  bg-purple6 font-sans font-semibold text-black
-                 justify-between items-end
+                 justify-between md:items-end
                  md:px-36 px-12
                  pt-8 pb-12"
     >
