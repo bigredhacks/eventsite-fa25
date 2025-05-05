@@ -26,21 +26,20 @@ const FAQ: React.FC<SectionProps> = ({ className }) => {
         md:pt-40 pt-40
          ${className ?? ""}`}
     >
-      <div className="w-full max-w-7xl mx-auto font-jersey10">
-        <div className="flex justify-between">
-          <div className="flex">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl text-yellow2 mb-8 md:mb-12">
-              FAQ
-            </h2>
-            <div className="-mt-[3.5vh] ml-[2.5vh] md:w-[12.5vw] w-[25vw] z-10">
-              <img
-                src={gameboy}
-                alt="gameboy controller"
-                className="pointer-events-none select-none
+      <div className="font-jersey10">
+        <div className="-mt-[15vh] mb-[5vh] ml-[2.5vh] md:w-[12.5vw] w-[25vw] z-10">
+          <img
+            src={gameboy}
+            alt="gameboy controller"
+            className="pointer-events-none select-none
                 md:w-[12.5vw] w-[25vw] z-10"
-              />
-            </div>
-          </div>
+          />
+        </div>
+        <div className="flex justify-between">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl text-yellow2 mb-8 md:mb-12">
+            Frequently Asked Questions
+          </h2>
+
           <img
             src={arcadeController}
             alt="arcade controller"
