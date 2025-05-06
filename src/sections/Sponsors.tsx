@@ -12,7 +12,7 @@ const Sponsors: React.FC<SectionProps> = ({ className }) => {
         flex flex-col items-center justify-center 
         bg-transparent
         md:px-24 px-8
-        md:pt-40 pt-40
+        md:pt-60 pt-40
         font-jersey10
         ${className ?? ""}`}
     >
