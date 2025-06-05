@@ -71,7 +71,7 @@ export const faqData: FAQItem[] = [
   {
     question: "Where and when is the hackathon?",
     answer:
-      "This fall, hackathon will take place October 4th-6th at the Physical Sciences Building on Cornell University's Ithaca Campus.",
+      "This fall, hackathon will take place September 19th-21st at the Physical Sciences Building on Cornell University's Ithaca Campus.",
   },
   {
     question: "Will food be provided?",
