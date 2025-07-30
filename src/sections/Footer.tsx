@@ -21,9 +21,17 @@ export default function Footer() {
           Made with ❤️ by BigRed//Hacks
         </p>
         <div className="flex flex-col space-y-1 md:text-lg">
-          <p className=" pointer-events-none select-none">
+          <p className="pointer-events-none select-none">
             Registered Student Organization of Cornell University
           </p>
+          <a
+            href="https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-fit hover:text-purple5"
+          >
+            Equal Education and Employment
+          </a>
           <a
             href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf?_gl=1*aykpld*_ga*MTI2NDQwNTA1OS4xNzQ1MjcwNzEw*_ga_E5KT6TC4TK*MTc0NjAwNjIwNy43LjAuMTc0NjAwNjIwNy4wLjAuMA.."
             target="_blank"
