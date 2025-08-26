@@ -1,5 +1,5 @@
 import { SectionProps } from "./SectionProps";
-import schedule from "@/assets/schedule.png";
+import schedule from "@/assets/schedule2.png";
 import waterfall from "@/assets/waterfall.png";
 import star from "@/assets/star.png";
 
