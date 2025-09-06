@@ -58,7 +58,8 @@ export const faqData: FAQItem[] = [
   },
   {
     question: "How can I sign up?",
-    answer: "You can sign up through the form on our registration page!",
+    answer:
+      "You can sign up through the form on our registration page! No further action is needed.",
   },
   // {
   //     question: "Can I pick my team?",
@@ -77,6 +78,10 @@ export const faqData: FAQItem[] = [
     question: "Will food be provided?",
     answer:
       "Yes, breakfast, lunch, and dinner will be provided throughout the whole event!",
+  },
+  {
+    question: "Are there travel reimbursements?",
+    answer: "Unfortunately, we are unable to provide travel reimbursements.",
   },
   {
     question: "Are there overnight accommodations?",
