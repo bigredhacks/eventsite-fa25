@@ -11,7 +11,7 @@
   --color-purple6: #e3c7ff; /* Footer: #E3C7FF */
   --color-purple7: #f2dbff; /* date and ScrollBarTrack: #F2DBFF */
   --color-purple8: #30094c; /* Tracks: #30094C */
-  
+
   --color-white1: #efefef; /* lighter white: #EFEFEF */
   --color-white2: #d5d5d5; /* darker white: #D5D5D5 */
 
@@ -42,6 +42,8 @@
 
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  --logo-w: clamp(72px, 18vw, 160px);
 }
 
 :root::-webkit-scrollbar {
@@ -58,4 +60,30 @@ body {
 
 button {
   cursor: pointer;
+}
+
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.scroller-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
 }
