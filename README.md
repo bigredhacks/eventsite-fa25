@@ -1,12 +1,41 @@
 # BigRed//Hacks 2025 Event Website
 
-A hackathon landing page built with **React**, **TypeScript**, and **Tailwind CSS**.
-
-test
+A hackathon event site with a **React** frontend and **Express** backend.
 
 ---
 
 ## Project Structure
+
+```
+eventsite-fa25/
+  frontend/    # React + TypeScript + Vite + Tailwind CSS
+  backend/     # Express + TypeScript + Supabase
+```
+
+---
+
+## Getting Started
+
+```bash
+# Install all dependencies (both frontend and backend)
+npm install
+
+# Run both frontend and backend dev servers
+npm run dev
+
+# Run only the frontend
+npm run dev:frontend
+
+# Run only the backend
+npm run dev:backend
+
+# Build both packages
+npm run build
+```
+
+---
+
+## Frontend
 
 ### `/components/`
 
@@ -58,24 +87,18 @@ UI components
 
 ---
 
+## Backend
+
+Express.js API with Supabase integration. Requires a `.env` file in `backend/` with:
+- `SUPABASE_URL`
+- `SUPABASE_PUBLISHABLE_KEY`
+
+---
+
 ## Tech Stack
 
 - **React** + **TypeScript**
 - **Tailwind CSS**
 - **Vite**
-- **Responsive Design**
-
----
-
-## Getting Started
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
+- **Express.js**
+- **Supabase**

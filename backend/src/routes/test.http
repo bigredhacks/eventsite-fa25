@@ -1,0 +1,25 @@
+get http://localhost:3000/api/registrations
+
+###
+
+get http://localhost:3000/api/registrations/1
+
+###
+post http://localhost:3000/api/registrations
+Content-Type: application/json
+
+{
+  "first_name": "test first",
+  "last_name": "test last"
+}
+
+###
+put http://localhost:3000/api/registrations/3
+Content-Type: application/json 
+
+{
+  "first_name": "updated first"
+} 
+
+###
+delete http://localhost:3000/api/registrations/4
