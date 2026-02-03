@@ -1,6 +1,7 @@
 // components/NavButtonSet.tsx
 import React from "react";
 import NavButton from "./NavButton";
+import { Link } from "react-router-dom";
 
 type Props = {
   setDisableHideUntil: React.Dispatch<React.SetStateAction<number>>;
@@ -48,19 +49,12 @@ const NavButtonSet: React.FC<Props> = ({
       >
         Sponsors
       </NavButton>
-      <button
-        onClick={() =>
-          window.open(
-            "https://forms.gle/LDJB8Q5H6dXPkdX27",
-            "_blank",
-            "noopener noreferrer"
-          )
-        }
-        className="text-yellow2 border border-yellow2 rounded-full px-6 py-1
-                 hover:bg-yellow2 hover:text-purple3 transition"
-      >
-        APPLY
-      </button>
+      <Link to="/login">
+       <button className="text-yellow2 border border-yellow2 rounded-full px-6 py-1
+                     hover:bg-yellow2 hover:text-purple3 transition">
+         APPLY
+        </button>
+      </Link>
     </>
   );
 };

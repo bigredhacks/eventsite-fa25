@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Jersey+10&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -20,8 +21,20 @@
 
   --color-grey1: #8d8d8d; /* lighter grey: #8D8D8D */
 
+  --color-red1: #E06A67; 
+  --color-red2: #E8615D; 
+  --color-red3: #E14743;
+  --color-red4: #FE1736; 
+
+  --color-white3: #FFF8F0; 
+
+  --color-brown1: #775E43; 
+  --color-brown2: #C0AB95; 
+  --color-brown3: #907960; 
+
   /** Fonts **/
   --font-jersey10: "Jersey 10", "sans-serif";
+  --font-poppins: "Poppins", "sans-serif";
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 }

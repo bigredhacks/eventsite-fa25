@@ -2,16 +2,20 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 import Navbar from "./components/NavBar/NavBar";
-import About from "./sections/About";
-import Tracks from "./sections/Tracks";
-import Schedule from "./sections/Schedule";
-import FAQ from "./sections/FAQ";
-import Sponsors from "./sections/Sponsors";
-import Home from "./sections/Home";
+import About from "./pages/home/sections/About";
+import Tracks from "./pages/home/sections/Tracks";
+import Schedule from "./pages/home/sections/Schedule";
+import FAQ from "./pages/home/sections/FAQ";
+import Sponsors from "./pages/home/sections/Sponsors";
+import Home from "./pages/home/sections/Home";
 import MLHBadge from "./components/MLHBadge";
 import ScrollBarTrack from "./components/ScrollBar/ScrollBarTrack";
-import Footer from "./sections/Footer";
+import Footer from "./pages/home/sections/Footer";
 import ScrollBar from "./components/ScrollBar/ScrollBar";
+import {Routes, Route } from "react-router-dom";
+import Login from "./pages/authorization/Login"; 
+import Signup from "./pages/authorization/Signup";
+
 
 function App() {
   const [landing2Active, setLanding2Active] = useState(false);
@@ -53,15 +57,16 @@ function App() {
   }, []);
 
   return (
-    <>
+    
       <div className="relative w-full">
-        <MLHBadge />
 
-        <Navbar />
-
-        {/* Main Content */}
         <div className="h-full">
-          <Home landing2Active={landing2Active} progress={landingProgress} />
+          <Routes>
+            {/* Home Page Route */}
+            <Route path = "/" element={ <> 
+              <MLHBadge />
+              <Navbar />
+              <Home landing2Active={landing2Active} progress={landingProgress} />
           <div className="relative bg-gradient-to-b from-purple3 to-purple4">
             {/* ScrollBar */}
             <div className="hidden md:block">
@@ -77,9 +82,15 @@ function App() {
             <Sponsors className="" />
             <Footer />
           </div>
+          </>
+            } />
+            {/* Login Page Route */}
+            <Route path = "/login" element={<Login />} />
+            {/* Signup Page Route */}
+            <Route path = "/signup" element={<Signup />} />
+          </Routes>
         </div>
       </div>
-    </>
   );
 }
 
