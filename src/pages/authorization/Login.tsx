@@ -5,7 +5,6 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red1 to-red3 flex items-center justify-center px-4">
       <div className="bg-white3 rounded-2xl shadow-2xl p-8 w-full max-w-lg">
-        {/* Header */}
         <h1 className="text-2xl text-brown1 text-center mb-2 font-poppins">
             <img
             src={brhLogo}
