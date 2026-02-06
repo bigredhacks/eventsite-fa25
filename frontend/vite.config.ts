@@ -10,6 +10,13 @@ export default defineConfig({
       "@/utils": "/src/utils",
       "@/assets": "/src/assets",
       "@/components": "/src/components",
+      "@/lib": "/src/lib",
+      "@/pages": "/src/pages",
+    },
+  },
+  server: {
+    proxy: {
+      "/api": "http://localhost:3000",
     },
   },
 });
