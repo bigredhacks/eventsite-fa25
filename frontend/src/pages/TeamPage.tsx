@@ -1,126 +1,126 @@
-import { useEffect, useState } from "react";
-import { HasTeamView, NoTeamView } from "@/components/team-matching";
+import { useState } from "react";
+import {
+  Sidebar,
+  NoTeamView,
+  MatchingFormView,
+  MatchingPendingView,
+  MeetTeamView,
+  HasTeamView,
+} from "@/components/team-matching";
 
-interface ParticipantData {
-  id: string;
+type TeamState =
+  | "no-team"
+  | "matching-form"
+  | "matching-pending"
+  | "meet-team"
+  | "has-team-new"
+  | "has-team-full";
+
+interface TeamMember {
   full_name: string;
   email: string;
-  hacker_type: string;
-  frontend_experience: string;
-  backend_experience: string;
-  design_experience: string;
-  hardware_experience: string;
-  frontend_preference: number;
-  backend_preference: number;
-  design_preference: number;
-  hardware_preference: number;
-  any_role_preference: number;
-  frontend_skills: string[];
-  backend_skills: string[];
-  design_skills: string[];
-  hardware_skills: string[];
 }
 
-interface TeamData {
-  team_number: number;
-  members: ParticipantData[];
-}
-
-interface TeamsResponse {
-  pool_id: string;
-  total_participants: number;
-  total_teams: number;
-  teams: TeamData[];
-  message?: string;
-}
+// Demo data for the "full team" and "meet team" views
+const demoMembers: TeamMember[] = [
+  { full_name: "Tina Chen", email: "tc663@cornell.edu" },
+  { full_name: "Tina Chen", email: "tc663@cornell.edu" },
+  { full_name: "Tina Chen", email: "tc663@cornell.edu" },
+];
 
 export default function TeamPage() {
-  const [teams, setTeams] = useState<TeamData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [poolId] = useState("default");
+  const [view, setView] = useState<TeamState>("no-team");
 
-  useEffect(() => {
-    const fetchTeams = async () => {
-      try {
-        const res = await fetch(`/api/teams?pool_id=${poolId}`);
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || "Failed to fetch teams");
-        }
-        const data: TeamsResponse = await res.json();
-        setTeams(data.teams ?? []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const handleJoinTeam = (_code: string) => {
+    // TODO: API call to join team by code
+    setView("has-team-full");
+  };
 
-    fetchTeams();
-  }, [poolId]);
+  const handleCreateTeam = () => {
+    // TODO: API call to create a new team
+    setView("has-team-new");
+  };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white text-black flex items-center justify-center">
-        <p className="text-gray-600">Loading teams...</p>
-      </div>
-    );
-  }
+  const handleFillMatchForm = () => {
+    setView("matching-form");
+  };
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-white text-black flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-2">{error}</p>
-          <p className="text-sm text-gray-500">
-            Make sure participants exist in the pool and the backend is running.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const handleMatchFormSubmit = async (_data: Record<string, any>) => {
+    // TODO: POST to /api/participants
+    setView("matching-pending");
+  };
 
-  if (teams.length === 0) {
-    return (
-      <div className="min-h-screen bg-white text-black py-12 px-4">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-            BigRed<span className="text-red-600">//</span>Hacks Team Matching
-          </h1>
+  const handleEditPreferences = () => {
+    setView("matching-form");
+  };
+
+  const handleViewTeam = () => {
+    setView("has-team-full");
+  };
+
+  const handleLeaveTeam = () => {
+    // TODO: API call to leave team
+    setView("no-team");
+  };
+
+  const renderView = () => {
+    switch (view) {
+      case "no-team":
+        return (
           <NoTeamView
-            frontendPreference={0}
-            backendPreference={0}
-            designPreference={0}
-            hardwarePreference={0}
-            anyRolePreference={0}
+            onJoinTeam={handleJoinTeam}
+            onCreateTeam={handleCreateTeam}
+            onFillMatchForm={handleFillMatchForm}
           />
-          <p className="text-center text-sm text-gray-500 mt-4">
-            No teams have been generated yet. Add participants first, then generate teams via the API.
-          </p>
-        </div>
-      </div>
-    );
-  }
+        );
+      case "matching-form":
+        return (
+          <MatchingFormView
+            onBack={() => setView("no-team")}
+            onSubmit={handleMatchFormSubmit}
+          />
+        );
+      case "matching-pending":
+        return (
+          <MatchingPendingView
+            onEditPreferences={handleEditPreferences}
+            onBack={() => setView("no-team")}
+          />
+        );
+      case "meet-team":
+        return (
+          <MeetTeamView
+            members={demoMembers}
+            onViewTeam={handleViewTeam}
+            onBack={() => setView("no-team")}
+          />
+        );
+      case "has-team-new":
+        return (
+          <HasTeamView
+            teamNumber={1022}
+            teamCode="SJ3432"
+            members={[]}
+            onLeaveTeam={handleLeaveTeam}
+          />
+        );
+      case "has-team-full":
+        return (
+          <HasTeamView
+            teamNumber={1021}
+            teamCode="SJ3432"
+            members={demoMembers}
+            onLeaveTeam={handleLeaveTeam}
+          />
+        );
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white text-black py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
-          BigRed<span className="text-red-600">//</span>Hacks Team Matching
-        </h1>
-        <p className="text-center text-gray-600 mb-8">
-          {teams.length} team{teams.length !== 1 ? "s" : ""} generated
-        </p>
-        <div className="grid gap-6">
-          {teams.map((team) => (
-            <HasTeamView
-              key={team.team_number}
-              teamNumber={team.team_number}
-              members={team.members}
-            />
-          ))}
-        </div>
+    <div className="bg-[#fffdfa] flex min-h-screen">
+      <Sidebar />
+      <div className="flex-1 flex flex-col gap-5 items-center p-10">
+        {renderView()}
       </div>
     </div>
   );

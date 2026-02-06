@@ -1,6 +1,7 @@
 import { useState } from "react";
 import DynamicForm from "@/components/registration/DynamicForm";
-import { hackathonRegistrationFormConfig, teamMatchingFormConfig} from "@/lib/formConfig";
+import { teamMatchingFormConfig } from "@/lib/formConfig";
+import { Sidebar } from "@/components/team-matching";
 
 export default function ApplyPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,9 +48,9 @@ export default function ApplyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-[#fffdfa] text-black">
       <div className="flex">
-        {/*ADD THE SIDE BAR HERE PLS TY */}
+        <Sidebar />
         <div className="flex-1 py-12 px-4">
           <DynamicForm
             config={teamMatchingFormConfig}
