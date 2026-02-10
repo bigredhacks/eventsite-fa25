@@ -7,6 +7,35 @@ interface CheckboxProps {
   error?: string;
 }
 
+function renderTextWithLinks(text: string) {
+  const parts = text.split(/(https?:\/\/\S+)/g);
+
+  return parts.map((part, index) => {
+    if (!part) return null;
+
+    if (part.startsWith("http://") || part.startsWith("https://")) {
+      const url = part.replace(/[),.]+$/, "");
+      const trailing = part.slice(url.length);
+
+      return (
+        <span key={`${url}-${index}`}>
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#fe1736] underline break-all"
+          >
+            {url}
+          </a>
+          {trailing}
+        </span>
+      );
+    }
+
+    return <span key={index}>{part}</span>;
+  });
+}
+
 export default function Checkbox({ field, value, onChange, error }: CheckboxProps) {
   return (
     <div className="flex flex-col gap-2.5 items-start bg-white px-6 py-6 rounded-lg w-full">
@@ -36,7 +65,7 @@ export default function Checkbox({ field, value, onChange, error }: CheckboxProp
           )}
         </button>
         <label className="text-xs font-normal text-black leading-[1.5] cursor-pointer">
-          {field.checkboxText}
+          {renderTextWithLinks(field.checkboxText)}
           {field.linkUrl && field.linkText && (
             <>
               {" "}
