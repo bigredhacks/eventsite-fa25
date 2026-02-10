@@ -23,7 +23,7 @@ const Login = () => {
               id="email"
               type="email"
               required
-              className="text-brown2 w-full px-4 py-3 border border-brown3 rounded-lg focus:ring-2 focus:ring-red4 focus:border-transparent outline-none transition"
+              className="text-brown3 w-full px-4 py-3 border border-brown3 rounded-lg focus:ring-2 focus:ring-red4 focus:border-transparent outline-none transition"
               placeholder="Email"
             />
           </div>

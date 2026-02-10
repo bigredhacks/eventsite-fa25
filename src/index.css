@@ -21,17 +21,18 @@
 
   --color-grey1: #8d8d8d; /* lighter grey: #8D8D8D */
 
-  /* login colors */
-  --color-red1: #E06A67; 
-  --color-red2: #E8615D; 
-  --color-red3: #E14743;
-  --color-red4: #FE1736; 
+ 
+  --color-red1: #E06A67; /* login color */
+  --color-red2: #E8615D; /* login color */
+  --color-red3: #E14743; /* login color */
+  --color-red4: #FE1736; /* login color */
+  --color-red5: #E46966; /* sidebar color */
 
   --color-white3: #FFF8F0; 
 
-  --color-brown1: #775E43; 
-  --color-brown2: #C0AB95; 
-  --color-brown3: #907960; 
+  --color-brown1: #775E43; /* login color */
+  --color-brown2: #C0AB95; /* login color */
+  --color-brown3: #907960; /* login color */
 
   /** Fonts **/
   --font-jersey10: "Jersey 10", "sans-serif";

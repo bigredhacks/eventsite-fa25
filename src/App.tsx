@@ -15,6 +15,11 @@ import ScrollBar from "./components/ScrollBar/ScrollBar";
 import {Routes, Route } from "react-router-dom";
 import Login from "./pages/authorization/Login"; 
 import Signup from "./pages/authorization/Signup";
+import Sidebar from "./components/SideBar/SideBar";
+import Dashboard from "./pages/registration/dashboard";
+import Profile from "./pages/registration/profile";
+import Register from "./pages/registration/register";
+import Team from "./pages/registration/team";
 
 
 function App() {
@@ -88,6 +93,23 @@ function App() {
             <Route path = "/login" element={<Login />} />
             {/* Signup Page Route */}
             <Route path = "/signup" element={<Signup />} />
+            {/* Temporary Route to Test Sidebar */}
+            <Route path="/test-sidebar" element={
+              <div className="flex">
+                <Sidebar />
+                <main className="ml-64 flex-1 p-8">
+                  <h1 className="text-3xl font-poppins">Testing Sidebar</h1>
+                </main>
+              </div>
+            } />
+            {/* Dashboard Page Route */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            {/* Profile Page Route */}
+            <Route path="/profile" element={<Profile />} />
+            {/* Register Page Route */}
+            <Route path="/register" element={<Register />} />
+            {/* Team Page Route */}
+            <Route path="/team" element={<Team />} />
           </Routes>
         </div>
       </div>
