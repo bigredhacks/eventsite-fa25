@@ -28,9 +28,17 @@ export interface EmailFormField extends BaseFormField {
   placeholder?: string;
 }
 
+export interface CsvOptionsSource {
+  type: "csv";
+  url: string;
+}
+
 export interface DropdownFormField extends BaseFormField {
   type: "dropdown";
   options: string[];
+  searchable?: boolean;
+  allowCustomValue?: boolean;
+  optionsSource?: CsvOptionsSource;
 }
 
 export interface RadioFormField extends BaseFormField {
@@ -159,6 +167,34 @@ export const hackathonRegistrationFormConfig: FormConfig = {
   description: "Complete your registration for the hackathon",
   fields: [
     {
+      id: "first_name",
+      label: "First Name",
+      type: "text",
+      required: true,
+      placeholder: "Jane",
+    },
+    {
+      id: "last_name",
+      label: "Last Name",
+      type: "text",
+      required: true,
+      placeholder: "Smith",
+    },
+    {
+      id: "age",
+      label: "Age",
+      type: "text",
+      required: true,
+      placeholder: "18",
+    },
+    {
+      id: "phone_number",
+      label: "Phone Number",
+      type: "text",
+      required: true,
+      placeholder: "(123) 456-7890",
+    },
+    {
       id: "email",
       label: "Email Address",
       type: "email",
@@ -166,40 +202,62 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       placeholder: "your.email@cornell.edu",
     },
     {
-      id: "full_name",
-      label: "Full Name",
+      id: "linkedin",
+      label: "LinkedIn",
       type: "text",
-      required: true,
-      placeholder: "Jane Smith",
+      required: false,
+      placeholder: "https://www.linkedin.com/in/your-profile",
     },
     {
-      id: "university",
-      label: "University",
+      id: "school",
+      label: "School",
+      type: "dropdown",
+      required: true,
+      searchable: true,
+      allowCustomValue: true,
+      options: [],
+      optionsSource: {
+        type: "csv",
+        url: "/schools.csv",
+      },
+    },
+    {
+      id: "country",
+      label: "Country of Residence",
+      type: "dropdown",
+      required: true,
+      searchable: true,
+      options: [],
+      optionsSource: {
+        type: "csv",
+        url: "/countries.csv",
+      },
+    },
+    {
+      id: "level_of_study",
+      label: "Level of Study",
       type: "dropdown",
       required: true,
       options: [
-        "Cornell University",
-        "MIT",
-        "Stanford University",
-        "Harvard University",
-        "UC Berkeley",
-        "Carnegie Mellon University",
+        "Less than Secondary / High School",
+        "Secondary / High School",
+        "Undergraduate University (2 year - community college or similar)",
+        "Undergraduate University (3+ year)",
+        "Graduate University (Masters, Professional, Doctoral, etc)",
+        "Code School / Bootcamp",
+        "Other Vocational / Trade Program or Apprenticeship",
+        "Post Doctorate",
         "Other",
+        "I'm not currently a student",
+        "Prefer not to answer",
       ],
     },
     {
       id: "major",
-      label: "Major / Field of Study",
+      label: "Major",
       type: "text",
       required: false,
       placeholder: "Computer Science",
-    },
-    {
-      id: "year",
-      label: "Year of Study",
-      type: "radio",
-      required: true,
-      options: ["Freshman", "Sophomore", "Junior", "Senior", "Graduate", "Other"],
     },
     {
       id: "dietary_restrictions",
@@ -209,58 +267,36 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       options: [
         "Vegetarian",
         "Vegan",
-        "Gluten-Free",
-        "Dairy-Free",
-        "Nut Allergy",
-        "Halal",
+        "Celiac Disease",
+        "Allergies",
         "Kosher",
-        "None",
+        "Halal",
       ],
     },
     {
-      id: "resume",
-      label: "Upload Resume (Optional)",
-      type: "file",
-      required: false,
-      accept: ".pdf,.doc,.docx",
-      multiple: false,
-    },
-    {
-      id: "workshop_interests",
-      label: "Which workshops are you interested in?",
-      type: "multipleChoiceGrid",
-      required: false,
-      rows: [
-        "Introduction to React",
-        "Machine Learning Basics",
-        "Mobile Development with Flutter",
-        "Web3 and Blockchain",
-      ],
-      columns: ["Not Interested", "Maybe", "Very Interested"],
-    },
-    {
-      id: "event_preferences",
-      label: "Rate your interest in the following events",
-      type: "preferenceGrid",
-      required: false,
-      description: "Rate from 1 (Not Interested) to 5 (Very Interested)",
-      rows: [
-        "Opening Ceremony",
-        "Tech Talks",
-        "Career Fair",
-        "Team Building Activities",
-        "Closing Ceremony",
-      ],
-      columns: ["1", "2", "3", "4", "5"],
-    },
-    {
-      id: "terms",
-      label: "Terms and Conditions",
+      id: "mlh_code_of_conduct",
+      label: "MLH Code of Conduct",
       type: "checkbox",
       required: true,
-      checkboxText: "I agree to the",
-      linkText: "terms and conditions",
-      linkUrl: "https://example.com/terms",
+      checkboxText: "I have read and agree to the",
+      linkText: "MLH Code of Conduct.",
+      linkUrl: "https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md",
+    },
+    {
+      id: "mlh_data_sharing_consent",
+      label: "MLH Data Sharing and Terms",
+      type: "checkbox",
+      required: true,
+      checkboxText:
+        "I authorize you to share my application/registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the MLH Privacy Policy (https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md). I further agree to the terms of both the MLH Contest Terms and Conditions (https://github.com/MLH/mlh-policies/blob/main/contest-terms.md) and the MLH Privacy Policy (https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md).",
+    },
+    {
+      id: "mlh_emails_opt_in",
+      label: "MLH Emails",
+      type: "checkbox",
+      required: false,
+      checkboxText:
+        "I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements.",
     },
   ],
 };
