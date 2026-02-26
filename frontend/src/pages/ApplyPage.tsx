@@ -52,7 +52,7 @@ export default function ApplyPage() {
         {/*ADD THE SIDE BAR HERE PLS TY */}
         <div className="flex-1 py-12 px-4">
           <DynamicForm
-            config={teamMatchingFormConfig}
+            config={hackathonRegistrationFormConfig}
             onSubmit={handleSubmit}
             isLoading={isLoading}
           />
