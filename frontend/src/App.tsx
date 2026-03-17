@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 import Navbar from "./components/NavBar/NavBar";
-import About from "./sections/About";
-import Tracks from "./sections/Tracks";
-import Schedule from "./sections/Schedule";
-import FAQ from "./sections/FAQ";
-import Sponsors from "./sections/Sponsors";
-import Home from "./sections/Home";
+import About from "./pages/home/sections/About";
+import Tracks from "./pages/home/sections/Tracks";
+import Schedule from "./pages/home/sections/Schedule";
+import FAQ from "./pages/home/sections/FAQ";
+import Sponsors from "./pages/home/sections/Sponsors";
+import Home from "./pages/home/sections/Home";
 import MLHBadge from "./components/MLHBadge";
 import ScrollBarTrack from "./components/ScrollBar/ScrollBarTrack";
-import Footer from "./sections/Footer";
+import Footer from "./pages/home/sections/Footer";
 import ScrollBar from "./components/ScrollBar/ScrollBar";
 
 function App() {

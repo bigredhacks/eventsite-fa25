@@ -1,7 +1,7 @@
 import { SectionProps } from "./SectionProps";
 import arcade from "@/assets/arcade.png";
-import { tracks } from "../config/config";
-import TrackCard from "../components/TrackCard";
+import { tracks } from "../../../config/config";
+import TrackCard from "../../../components/TrackCard";
 
 const Tracks: React.FC<SectionProps> = ({ className }) => {
   return (
