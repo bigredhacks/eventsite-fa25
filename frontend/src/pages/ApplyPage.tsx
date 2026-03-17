@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DynamicForm from "@/components/registration/DynamicForm";
 import { hackathonRegistrationFormConfig } from "@/lib/formConfig";
-import { Sidebar } from "@/components/team-matching";
+import RegistrationLayout from "@/components/layouts/RegistrationLayout";
 
 export default function ApplyPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,12 +18,13 @@ export default function ApplyPage() {
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || "Submission failed");
+        throw new Error(err.message || "Failed to submit application");
       }
 
       setIsSubmitted(true);
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "Something went wrong");
+    } catch (error) {
+      console.error("Error submitting application:", error);
+      alert("Failed to submit application. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -31,34 +32,30 @@ export default function ApplyPage() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-white text-black flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto px-4">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            BigRed<span className="text-red-600">//</span>Hacks
-          </h1>
-          <h2 className="text-2xl font-semibold text-gray-700 mb-2">
-            Application Submitted!
-          </h2>
-          <p className="text-gray-600">
-            Thank you for applying. We'll review your application and get back to you soon.
-          </p>
+      <RegistrationLayout className="bg-[#fffdfa]">
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="max-w-md mx-auto text-center bg-white p-8 rounded-lg shadow-sm">
+            <h2 className="text-2xl font-bold text-green-600 mb-4">
+              Application Submitted!
+            </h2>
+            <p className="text-gray-600">
+              Thank you for applying. We'll review your application and get back to you soon.
+            </p>
+          </div>
         </div>
-      </div>
+      </RegistrationLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#fffdfa] text-black">
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1 py-12 px-4">
-          <DynamicForm
-            config={hackathonRegistrationFormConfig}
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-          />
-        </div>
+    <RegistrationLayout className="bg-[#fffdfa]">
+      <div className="py-12 px-4">
+        <DynamicForm
+          config={hackathonRegistrationFormConfig}
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+        />
       </div>
-    </div>
+    </RegistrationLayout>
   );
 }

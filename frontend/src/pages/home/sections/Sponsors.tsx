@@ -153,7 +153,7 @@ const Sponsors: React.FC<SectionProps> = ({ className }) => {
         </ul>
       </div>
 
-      <div className="w-screen mt-auto relative">
+      <div className="w-full mt-auto relative overflow-x-hidden">
         <img
           src={arcade_device}
           alt="arcade device"

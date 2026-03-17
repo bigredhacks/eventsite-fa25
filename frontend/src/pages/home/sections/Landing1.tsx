@@ -23,7 +23,7 @@ const Landing: React.FC<LandingProps> = ({ progress }) => {
     <div
       className="h-[100vh] w-full fixed flex z-50
         items-start justify-start
-        font-jersey10 text-yellow1"
+        font-jersey10 text-yellow1 overflow-x-hidden"
       style={{ opacity: progress }}
     >
       {/* Mobile Text */}

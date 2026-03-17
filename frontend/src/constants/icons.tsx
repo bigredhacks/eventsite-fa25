@@ -6,6 +6,8 @@ import registerIcon from '@/assets/register_icon_white.png'
 import activeRegisterIcon from '@/assets/register_icon_red.png'
 import teamIcon from '@/assets/team_icon_white.png'
 import activeTeamIcon from '@/assets/team_icon_red.png'
+import adminIcon from '@/assets/admin_icon_white.svg'
+import activeAdminIcon from '@/assets/admin_icon_red.svg'
 import logoutIcon from '@/assets/logout_icon.png'
 
 export const ICONS = {
@@ -17,5 +19,7 @@ export const ICONS = {
     activeRegister: activeRegisterIcon,
     team: teamIcon,
     activeTeam: activeTeamIcon,
+    admin: adminIcon,
+    activeAdmin: activeAdminIcon,
     logout: logoutIcon
 }

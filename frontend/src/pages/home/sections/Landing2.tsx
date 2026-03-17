@@ -19,7 +19,7 @@ const Landing: React.FC<LandingProps> = ({ progress }) => {
       <div
         className="h-[100vh] absolute w-full flex
         items-start justify-start md:justify-end
-        font-jersey10 text-yellow1"
+        font-jersey10 text-yellow1 overflow-x-hidden"
       >
         {/* Mobile Text */}
         <div className="block md:hidden absolute top-32 left-8 text-7xl z-60">

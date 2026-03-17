@@ -1,12 +1,13 @@
-import Sidebar from "../../components/SideBar/SideBar";
+import RegistrationLayout from "../../components/layouts/RegistrationLayout";
 
 const Profile = () => {
     return (
-        <div className="flex">
-            <Sidebar />
-            <main className="ml-64 flex-1 p-8">
-            </main>
-        </div>
+        <RegistrationLayout>
+            <div className="h-full">
+                <h1 className="text-3xl font-bold text-gray-900 mb-6">Profile</h1>
+                {/* Profile content will go here */}
+            </div>
+        </RegistrationLayout>
     );
 };
 

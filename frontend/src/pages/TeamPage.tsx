@@ -1,12 +1,12 @@
 import { useState } from "react";
 import {
-  Sidebar,
   NoTeamView,
   MatchingFormView,
   MatchingPendingView,
   MeetTeamView,
   HasTeamView,
 } from "@/components/team-matching";
+import RegistrationLayout from "@/components/layouts/RegistrationLayout";
 
 type TeamState =
   | "no-team"
@@ -117,11 +117,10 @@ export default function TeamPage() {
   };
 
   return (
-    <div className="bg-[#fffdfa] flex min-h-screen">
-      <Sidebar />
-      <div className="flex-1 flex flex-col gap-5 items-center p-10">
+    <RegistrationLayout className="bg-[#fffdfa]">
+      <div className="flex flex-col gap-5 items-center p-10">
         {renderView()}
       </div>
-    </div>
+    </RegistrationLayout>
   );
 }

@@ -19,7 +19,7 @@ const SideButtonSet = () => {
         Profile
       </SideButton>
       <SideButton
-        to="/register"
+        to="/apply"
         icon={ICONS.register}
         activeIcon={ICONS.activeRegister}
       >
@@ -31,6 +31,13 @@ const SideButtonSet = () => {
         activeIcon={ICONS.activeTeam}
       >
         Team
+      </SideButton>
+      <SideButton
+        to="/admin"
+        icon={ICONS.admin}
+        activeIcon={ICONS.activeAdmin}
+      >
+        Admin
       </SideButton>
       <SideButton
         to="/login"
