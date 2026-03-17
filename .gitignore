@@ -28,5 +28,6 @@ dist-ssr
 
 CLAUDE.md
 *.http
+.claude/
 
 venv
