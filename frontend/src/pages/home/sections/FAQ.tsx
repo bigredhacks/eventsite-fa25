@@ -1,6 +1,6 @@
 import { SectionProps } from "./SectionProps";
-import Accordion from "../components/Accordian";
-import { faqData } from "../config/config";
+import Accordion from "../../../components/Accordian";
+import { faqData } from "../../../config/config";
 import gameboy from "@/assets/gameboy_controller.png";
 import arcadeController from "@/assets/arcade_controller.png";
 

@@ -61,6 +61,13 @@ const NavButtonSet: React.FC<Props> = ({
       >
         APPLY
       </button>
+      <a 
+        href="/login"
+        className="text-yellow2 border border-yellow2 rounded-full px-6 py-1
+                 hover:bg-yellow2 hover:text-purple3 transition"
+      >
+        LOGIN
+      </a>
     </>
   );
 };

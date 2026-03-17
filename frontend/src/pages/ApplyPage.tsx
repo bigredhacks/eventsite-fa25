@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DynamicForm from "@/components/registration/DynamicForm";
-import { teamMatchingFormConfig } from "@/lib/formConfig";
+import { hackathonRegistrationFormConfig } from "@/lib/formConfig";
 import { Sidebar } from "@/components/team-matching";
 
 export default function ApplyPage() {
