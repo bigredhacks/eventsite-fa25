@@ -13,6 +13,7 @@ import Profile from "./pages/registration/profile";
 import RegistrationTeam from "./pages/registration/team";
 import AuthCallback from "./pages/AuthCallback";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -26,11 +27,11 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/signup" element={<Signup />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         {/* Redirect /register to /apply since that's where the actual registration form is */}
         <Route path="/register" element={<Navigate to="/apply" replace />} />
-        <Route path="/registration-team" element={<RegistrationTeam />} />
+        <Route path="/registration-team" element={<ProtectedRoute><RegistrationTeam /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
