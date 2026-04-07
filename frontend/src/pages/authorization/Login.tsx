@@ -1,25 +1,77 @@
-import brhLogo from "@/assets/brh_logo_red_text.png";
-import { Link } from "react-router-dom";
+import { useState, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../config/supabase";
+import brhLogo from "@/assets/brh_logo_red_text.png";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setMessage(null);
+    setLoading(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      navigate("/dashboard");
+    }
+
+    setLoading(false);
+  };
+
+  const handleForgotPassword = async () => {
+    setError(null);
+    setMessage(null);
+
+    if (!email) {
+      setError("Please enter your email address first");
+      return;
+    }
+
+    setLoading(true);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/reset-password`,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setMessage("Check your email for the password reset link");
+    }
+
+    setLoading(false);
+  };
+
   const handleGoogleSignIn = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: `${window.location.origin}/auth/callback`
         }
       });
 
       if (error) {
-        console.error('Google sign in error:', error.message);
-        // You can add error handling UI here
+        setError(error.message);
       }
-    } catch (error) {
-      console.error('Unexpected error during Google sign in:', error);
+    } catch (err) {
+      setError("An unexpected error occurred");
     }
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-red1 to-red3 flex items-center justify-center px-4">
       <div className="bg-white3 rounded-2xl shadow-2xl p-8 w-full max-w-lg">
@@ -32,7 +84,7 @@ const Login = () => {
           Login
         </h1>
 
-        <form className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="px-16 font-poppins">
             <label htmlFor="email" className="block text-sm font-medium text-brown3 mb-2">
               Email <span className="text-red4">*</span>
@@ -41,6 +93,8 @@ const Login = () => {
               id="email"
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="text-brown3 w-full px-4 py-3 border border-brown3 rounded-lg focus:ring-2 focus:ring-red4 focus:border-transparent outline-none transition"
               placeholder="Email"
             />
@@ -54,23 +108,42 @@ const Login = () => {
               id="password"
               type="password"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="text-brown3 w-full px-4 py-3 border border-brown3 rounded-lg focus:ring-2 focus:ring-red4 focus:border-transparent outline-none transition"
               placeholder="Password"
             />
           </div>
 
           <div className="text-center font-poppins text-sm text-brown3">
-            <a href="#" className="underline hover:text-red4 transition">
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              className="underline hover:text-red4 transition"
+            >
               Forgot password?
-            </a>
+            </button>
           </div>
+
+          {error && (
+            <div className="px-16">
+              <p className="text-red4 text-sm font-poppins">{error}</p>
+            </div>
+          )}
+
+          {message && (
+            <div className="px-16">
+              <p className="text-green-600 text-sm font-poppins">{message}</p>
+            </div>
+          )}
 
           <div className="px-5">
             <button
                 type="submit"
-                className="w-full bg-red4 text-white py-2.5 rounded-lg font-semibold font-poppins hover:bg-red3 transition shadow-md"
+                disabled={loading}
+                className="w-full bg-red4 text-white py-2.5 rounded-lg font-semibold font-poppins hover:bg-red3 transition shadow-md disabled:opacity-50"
             >
-                Sign In
+                {loading ? "Signing in..." : "Sign In"}
             </button>
           </div>
 
