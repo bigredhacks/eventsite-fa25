@@ -12,6 +12,7 @@
   --color-purple6: #e3c7ff; /* Footer: #E3C7FF */
   --color-purple7: #f2dbff; /* date and ScrollBarTrack: #F2DBFF */
   --color-purple8: #30094c; /* Tracks: #30094C */
+  --color-purple9: #3F1279; /* dashboard text color */
 
   --color-white1: #efefef; /* lighter white: #EFEFEF */
   --color-white2: #d5d5d5; /* darker white: #D5D5D5 */
@@ -26,6 +27,8 @@
   --color-red3: #E14743; /* login color */
   --color-red4: #FE1736; /* login color */
   --color-red5: #E46966; /* sidebar color */
+  --color-red6: #CB4643; /* dashboard text color */
+  --color-red7: #FBEBE9; /* dashboard background color */
 
   --color-white3: #FFF8F0;
 
