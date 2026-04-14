@@ -1,7 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import SideButton from "./SideButton";
 import { ICONS } from "../../constants/icons";
+import { supabase } from "../../config/supabase";
 
 const SideButtonSet = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/login");
+  };
+
   return (
     <>
       <SideButton
@@ -39,12 +48,20 @@ const SideButtonSet = () => {
       >
         Admin
       </SideButton>
-      <SideButton
-        to="/login"
-        icon={ICONS.logout}
+      <button
+        onClick={handleLogout}
+        className="flex items-center gap-3 px-4 h-12 font-medium rounded-lg transition-colors duration-200 text-white hover:bg-red4 w-full"
       >
-        Logout
-      </SideButton>
+        {ICONS.logout && (
+          <img
+            src={ICONS.logout}
+            alt=""
+            className="w-7 transition-opacity duration-200"
+            loading="eager"
+          />
+        )}
+        <span className="font-poppins transition-colors duration-200">Logout</span>
+      </button>
     </>
   );
 };

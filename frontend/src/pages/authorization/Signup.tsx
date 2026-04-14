@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../config/supabase";
 import brhLogo from "@/assets/brh_logo_red_text.png";
@@ -11,9 +11,51 @@ export default function Signup() {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setMessage(null);
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    setLoading(true);
+
+    const { error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          full_name: `${formData.firstName} ${formData.lastName}`,
+        },
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setMessage("Check your email for the confirmation link!");
+    }
+
+    setLoading(false);
   };
 
   const handleGoogleSignUp = async () => {
@@ -26,11 +68,10 @@ export default function Signup() {
       });
 
       if (error) {
-        console.error('Google sign up error:', error.message);
-        // You can add error handling UI here
+        setError(error.message);
       }
-    } catch (error) {
-      console.error('Unexpected error during Google sign up:', error);
+    } catch (err) {
+      setError("An unexpected error occurred");
     }
   };
 
@@ -54,7 +95,7 @@ export default function Signup() {
           <h1 className="text-brown1 text-xl font-medium font-poppins">Create New Account</h1>
         </div>
 
-        <div className="w-full space-y-3">
+        <form onSubmit={handleSubmit} className="w-full space-y-3">
           {fields.map((field) => (
             <div key={field.id} className="px-4 font-poppins">
               <label htmlFor={field.id} className="block text-sm font-medium text-brown3 mb-1">
@@ -71,13 +112,29 @@ export default function Signup() {
               />
             </div>
           ))}
-        </div>
 
-        <div className="w-full px-4 mt-6">
-          <button className="w-full bg-red4 text-white py-3 rounded-lg font-bold font-poppins hover:bg-red3 transition shadow-md">
-            Create Account
-          </button>
-        </div>
+          {error && (
+            <div className="px-4">
+              <p className="text-red4 text-sm font-poppins">{error}</p>
+            </div>
+          )}
+
+          {message && (
+            <div className="px-4">
+              <p className="text-green-600 text-sm font-poppins">{message}</p>
+            </div>
+          )}
+
+          <div className="w-full px-4 mt-6">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-red4 text-white py-3 rounded-lg font-bold font-poppins hover:bg-red3 transition shadow-md disabled:opacity-50"
+            >
+              {loading ? "Creating Account..." : "Create Account"}
+            </button>
+          </div>
+        </form>
 
         {/* Divider */}
         <div className="w-full mt-6 mb-4 px-4">
