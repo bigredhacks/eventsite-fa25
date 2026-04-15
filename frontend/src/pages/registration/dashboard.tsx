@@ -139,7 +139,7 @@ const Dashboard = () => {
           <div className="bg-red7 border border-red7 rounded-xl p-6 flex flex-col gap-3 shadow-sm">
             <p className="text-[11px] font-poppins font-semibold text-red6 uppercase tracking-widest">Big Red Hacks 2026</p>
             <p className="font-poppins text-gray-700 text-sm leading-relaxed">
-              The largest student-run hackathon of the Northeast — Cornell University, Ithaca NY.
+              The largest student-run hackathon @ Cornell University, Ithaca NY.
             </p>
             <div className="flex items-end gap-3 mt-auto pt-3 border-t border-red5/20">
               <CountdownUnit value={countdown.days} label="days" />

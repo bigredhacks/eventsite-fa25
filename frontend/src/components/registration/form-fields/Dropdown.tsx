@@ -125,13 +125,13 @@ export default function Dropdown({ field, value, onChange, error }: DropdownProp
       {isOpen && (
         <div className="fixed inset-0 z-[9]" onMouseDown={closeDropdown} />
       )}
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full">
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-white border border-[#636363] rounded-lg px-3 py-2.5 w-full flex items-center justify-between text-sm"
+          className="bg-white border border-gray-200 rounded-lg px-3 py-2.5 w-full flex items-center justify-between text-sm font-poppins focus:outline-none focus:border-red5 transition-colors"
         >
-          <span className={`truncate ${value ? "text-black" : "text-[#d6d3cf]"}`}>
+          <span className={`truncate ${value ? "text-gray-800" : "text-gray-400"}`}>
             {value || "Select"}
           </span>
           <svg width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[12.8px] h-[8px]">
@@ -139,7 +139,7 @@ export default function Dropdown({ field, value, onChange, error }: DropdownProp
           </svg>
         </button>
         {isOpen && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-[#636363] rounded-lg shadow-lg overflow-hidden">
+          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
             {field.searchable && (
               <div className="bg-white p-2 border-b border-[#e5e5e5]">
                 <input
