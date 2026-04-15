@@ -24,10 +24,8 @@ export default function SearchableCombobox({
   const [inputText, setInputText] = useState(value);
   const [query, setQuery] = useState("");
   const [csvOptions, setCsvOptions] = useState<string[]>([]);
+  const focused = useRef(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Keep inputText in sync when value is changed externally
-  useEffect(() => { setInputText(value); }, [value]);
 
   // Load CSV options once (cached by loadCsvOptions)
   useEffect(() => {
@@ -60,16 +58,25 @@ export default function SearchableCombobox({
     setOpen(false);
   };
 
-  const handleBlurCommit = () => {
-    // On blur, if allowCustomValue commit whatever is typed
+  const handleFocus = () => {
+    focused.current = true;
+    // Sync display text from current committed value on focus
+    setInputText(value);
+    setOpen(true);
+  };
+
+  const handleBlur = () => {
+    focused.current = false;
     if (allowCustomValue && inputText.trim()) {
       onChange(inputText.trim());
     } else if (!allowCustomValue) {
-      // Revert to last valid value if no match
       setInputText(value);
     }
     setOpen(false);
   };
+
+  // When not focused, always show the committed external value
+  const displayValue = focused.current ? inputText : value;
 
   return (
     <>
@@ -86,10 +93,10 @@ export default function SearchableCombobox({
       <div className={`relative ${className}`}>
         <input
           type="text"
-          value={inputText}
+          value={displayValue}
           onChange={(e) => handleInputChange(e.target.value)}
-          onFocus={() => setOpen(true)}
-          onBlur={handleBlurCommit}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           placeholder={placeholder}
           autoComplete="off"
           className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-red5 transition-colors font-poppins"

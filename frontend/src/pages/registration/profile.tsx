@@ -245,17 +245,13 @@ const Profile = () => {
             </Field>
 
             <Field label="Major / Field of Study">
-              <input
-                type="text"
-                list="major-suggestions"
+              <SearchableCombobox
                 value={form.major}
-                onChange={(e) => handleChange("major", e.target.value)}
+                onChange={(v) => handleChange("major", v)}
+                staticOptions={MAJOR_SUGGESTIONS}
                 placeholder="e.g. Computer Science"
-                className={inputCls}
+                allowCustomValue
               />
-              <datalist id="major-suggestions">
-                {MAJOR_SUGGESTIONS.map((m) => <option key={m} value={m} />)}
-              </datalist>
             </Field>
 
             {/* Preferences */}

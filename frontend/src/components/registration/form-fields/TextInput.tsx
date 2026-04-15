@@ -21,18 +21,16 @@ export default function TextInput({ field, value, onChange, error }: TextInputPr
       {field.description && (
         <p className="text-xs text-gray-600">{field.description}</p>
       )}
-      <div className="border-b border-[#d6d3cf] w-full">
-        <input
-          type={field.type}
-          id={field.id}
-          name={field.id}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={field.placeholder || ""}
-          required={field.required}
-          className="w-full px-0 py-2.5 text-sm text-black placeholder:text-[#d6d3cf] focus:outline-none bg-transparent"
-        />
-      </div>
+      <input
+        type={field.type}
+        id={field.id}
+        name={field.id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={field.placeholder || ""}
+        required={field.required}
+        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-red5 transition-colors font-poppins"
+      />
       {error && (
         <p className="text-xs text-red-600">{error}</p>
       )}
