@@ -13,10 +13,12 @@ interface DynamicFormProps {
   config: FormConfig;
   onSubmit: (data: Record<string, any>) => void | Promise<void>;
   isLoading?: boolean;
+  initialValues?: Record<string, any>;
+  hideHeader?: boolean;
 }
 
-export default function DynamicForm({ config, onSubmit, isLoading = false }: DynamicFormProps) {
-  const [formData, setFormData] = useState<Record<string, any>>({});
+export default function DynamicForm({ config, onSubmit, isLoading = false, initialValues = {}, hideHeader = false }: DynamicFormProps) {
+  const [formData, setFormData] = useState<Record<string, any>>(initialValues);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleFieldChange = (fieldId: string, value: any) => {
@@ -168,17 +170,19 @@ export default function DynamicForm({ config, onSubmit, isLoading = false }: Dyn
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-gray-800">
-          BigRed<span className="text-red-600">//</span>Hacks
-        </h1>
-        {config.title && (
-          <h2 className="mt-4 text-2xl font-semibold text-gray-700">{config.title}</h2>
-        )}
-        {config.description && (
-          <p className="mt-2 text-gray-600">{config.description}</p>
-        )}
-      </div>
+      {!hideHeader && (
+        <div className="mb-8 text-center">
+          <h1 className="text-5xl font-jersey10 text-gray-900">
+            BigRed<span className="text-red5">//</span>Hacks
+          </h1>
+          {config.title && (
+            <h2 className="mt-3 text-xl font-poppins font-semibold text-gray-700">{config.title}</h2>
+          )}
+          {config.description && (
+            <p className="mt-1 font-poppins text-sm text-gray-500">{config.description}</p>
+          )}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {config.fields.map((field) => (
@@ -189,9 +193,9 @@ export default function DynamicForm({ config, onSubmit, isLoading = false }: Dyn
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-lg bg-red-600 px-4 py-3 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-400 transition-colors"
+            className="w-full rounded-lg bg-red5 px-4 py-3 text-sm font-poppins font-semibold text-white shadow-sm hover:bg-red3 focus:outline-none focus:ring-2 focus:ring-red5 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-400 transition-colors"
           >
-            {isLoading ? "Submitting..." : "Submit"}
+            {isLoading ? "Submitting…" : "Submit Application"}
           </button>
         </div>
       </form>

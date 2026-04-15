@@ -28,13 +28,6 @@ const SideButtonSet = () => {
         Profile
       </SideButton>
       <SideButton
-        to="/apply"
-        icon={ICONS.register}
-        activeIcon={ICONS.activeRegister}
-      >
-        Register
-      </SideButton>
-      <SideButton
         to="/team"
         icon={ICONS.team}
         activeIcon={ICONS.activeTeam}
