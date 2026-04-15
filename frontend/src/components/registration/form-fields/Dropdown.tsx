@@ -11,17 +11,24 @@ interface DropdownProps {
 
 export default function Dropdown({ field, value, onChange, error }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [loadedOptions, setLoadedOptions] = useState<string[] | null>(null);
   const [isLoadingOptions, setIsLoadingOptions] = useState(false);
   const [optionsError, setOptionsError] = useState<string | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    if (!isOpen) {
-      setSearchQuery("");
-    }
-  }, [isOpen]);
+  const closeDropdown = () => {
+    setIsOpen(false);
+    setInputValue("");
+    setSearchQuery("");
+  };
+
+  const handleSearchChange = (value: string) => {
+    setInputValue(value);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => setSearchQuery(value), 250);
+  };
 
   useEffect(() => {
     if (!field.optionsSource || field.optionsSource.type !== "csv") {
@@ -99,16 +106,7 @@ export default function Dropdown({ field, value, onChange, error }: DropdownProp
     return candidate;
   }, [availableOptions, field.allowCustomValue, field.searchable, searchQuery]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  // Click-outside handled by a fixed backdrop rendered when open (no useEffect needed)
 
   return (
     <div className="flex flex-col gap-2.5 items-start bg-white px-6 py-6 rounded-lg w-full">
@@ -123,7 +121,11 @@ export default function Dropdown({ field, value, onChange, error }: DropdownProp
       {field.description && (
         <p className="text-xs text-gray-600">{field.description}</p>
       )}
-      <div className="relative w-full max-w-md" ref={dropdownRef}>
+      {/* Backdrop to close dropdown on outside click — no useEffect needed */}
+      {isOpen && (
+        <div className="fixed inset-0 z-[9]" onMouseDown={closeDropdown} />
+      )}
+      <div className="relative w-full max-w-md">
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
@@ -142,24 +144,24 @@ export default function Dropdown({ field, value, onChange, error }: DropdownProp
               <div className="bg-white p-2 border-b border-[#e5e5e5]">
                 <input
                   type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Type to search..."
+                  value={inputValue}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  placeholder="Type to search…"
                   className="w-full border border-[#d6d3cf] rounded-md px-2 py-1.5 text-sm text-black placeholder:text-[#9b9b9b] focus:outline-none"
                 />
               </div>
             )}
 
             {isLoadingOptions && (
-              <p className="px-3 py-2 text-sm text-gray-600">Loading options...</p>
+              <p className="px-3 py-2 text-sm text-gray-600 bg-white">Loading options…</p>
             )}
 
             {!isLoadingOptions && optionsError && (
-              <p className="px-3 py-2 text-sm text-red-600">{optionsError}</p>
+              <p className="px-3 py-2 text-sm text-red-600 bg-white">{optionsError}</p>
             )}
 
             {!isLoadingOptions && !optionsError && !customValue && filteredOptions.length === 0 && (
-              <p className="px-3 py-2 text-sm text-gray-600">No matches found</p>
+              <p className="px-3 py-2 text-sm text-gray-600 bg-white">No matches found</p>
             )}
 
             {!isLoadingOptions && !optionsError && (
@@ -167,11 +169,8 @@ export default function Dropdown({ field, value, onChange, error }: DropdownProp
                 {customValue && (
                   <button
                     type="button"
-                    onClick={() => {
-                      onChange(customValue);
-                      setIsOpen(false);
-                    }}
-                    className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100 font-medium"
+                    onClick={() => { onChange(customValue); closeDropdown(); }}
+                    className="w-full px-3 py-2 text-left text-sm text-gray-800 hover:bg-gray-100 font-medium"
                   >
                     Use "{customValue}"
                   </button>
@@ -180,11 +179,8 @@ export default function Dropdown({ field, value, onChange, error }: DropdownProp
                   <button
                     key={option}
                     type="button"
-                    onClick={() => {
-                      onChange(option);
-                      setIsOpen(false);
-                    }}
-                    className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    onClick={() => { onChange(option); closeDropdown(); }}
+                    className="w-full px-3 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                   >
                     {option}
                   </button>

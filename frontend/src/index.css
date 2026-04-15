@@ -23,12 +23,12 @@
   --color-grey1: #8d8d8d; /* lighter grey: #8D8D8D */
 
   --color-red1: #E06A67; /* login color */
-  --color-red2: #E8615D; /* login color */
-  --color-red3: #E14743; /* login color */
-  --color-red4: #FE1736; /* login color */
-  --color-red5: #E46966; /* sidebar color */
-  --color-red6: #CB4643; /* dashboard text color */
-  --color-red7: #FBEBE9; /* dashboard background color */
+  --color-red2: #C94040; /* login color */
+  --color-red3: #7A1010; /* hover state */
+  --color-red4: #FE1736; /* required field asterisks */
+  --color-red5: #B31B1B; /* primary UI red — Cornell Carnelian */
+  --color-red6: #8B1515; /* headings / titles */
+  --color-red7: #FDECEA; /* light pink background */
 
   --color-white3: #FFF8F0;
 
@@ -50,7 +50,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #171429;
+  background-color: #ffffff; /* white prevents dark flash on registration page overscroll */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -74,6 +74,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 button {
@@ -87,6 +88,32 @@ button {
   to {
     transform: translateX(-100%);
   }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  25%       { transform: rotate(3deg)  translateY(-4px); }
+  50%       { transform: rotate(-2deg) translateY(0); }
+  75%       { transform: rotate(2deg)  translateY(-2px); }
+}
+
+.hover-wiggle:hover {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.25s ease-out forwards;
 }
 
 .scroller-mask {

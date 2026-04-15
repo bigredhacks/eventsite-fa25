@@ -4,7 +4,7 @@ import logo from "@/assets/brh_logo_sidebar.png";
 
 const Sidebar = memo(() => {
   return (
-    <aside className="w-56 h-screen bg-red5 rounded-lg flex flex-col p-6 fixed left-0 top-0 z-40">
+    <aside className="w-56 h-screen bg-red5 rounded-r-lg flex flex-col p-6 fixed left-0 top-0 z-40">
       <div className="mb-7">
         <img 
           src={logo} 

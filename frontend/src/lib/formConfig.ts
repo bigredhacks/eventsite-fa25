@@ -218,7 +218,7 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       options: [],
       optionsSource: {
         type: "csv",
-        url: "/schools.csv",
+        url: "https://raw.githubusercontent.com/MLH/mlh-policies/main/schools.csv",
       },
     },
     {

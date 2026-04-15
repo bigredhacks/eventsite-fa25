@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
-import ApplyPage from "@/pages/ApplyPage.tsx";
+import ToastProvider from "./components/Toast/ToastProvider";
 import TeamPage from "@/pages/TeamPage.tsx";
 import AdminPage from "@/pages/AdminPage.tsx";
 import Login from "./pages/authorization/Login";
@@ -16,10 +16,11 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <ToastProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/apply" element={<ApplyPage />} />
+        <Route path="/apply" element={<Navigate to="/dashboard" replace />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/login" element={<Login />} />
@@ -32,5 +33,6 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/registration-team" element={<ProtectedRoute><RegistrationTeam /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
+    </ToastProvider>
   </StrictMode>
 );
