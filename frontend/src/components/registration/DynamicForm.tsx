@@ -39,6 +39,20 @@ export default function DynamicForm({ config, onSubmit, isLoading = false, initi
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
+    // If a Zod schema is provided, it owns all validation (required + format).
+    if (config.schema) {
+      const result = config.schema.safeParse(formData);
+      if (!result.success) {
+        for (const issue of result.error.issues) {
+          const field = String(issue.path[0] ?? "form");
+          if (!newErrors[field]) newErrors[field] = issue.message;
+        }
+      }
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    }
+
+    // Fallback: manual required-only check for configs without a schema.
     config.fields.forEach((field) => {
       if (field.required) {
         const value = formData[field.id];

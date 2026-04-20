@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Toast from "./Toast";
 
 export type ToastType = "success" | "error" | "info";
@@ -40,11 +41,17 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none">
-        {toasts.map((t) => (
-          <Toast key={t.id} message={t.message} type={t.type} onDismiss={() => dismiss(t.id)} />
-        ))}
-      </div>
+      {/* Render into document.body so the toast escapes any flex/overflow
+          ancestor (body itself is `display: flex; overflow-x: hidden`, which
+          was clipping the stack). */}
+      {createPortal(
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none">
+          {toasts.map((t) => (
+            <Toast key={t.id} message={t.message} type={t.type} onDismiss={() => dismiss(t.id)} />
+          ))}
+        </div>,
+        document.body
+      )}
     </ToastContext.Provider>
   );
 }

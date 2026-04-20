@@ -3,37 +3,15 @@ import RegistrationLayout from "../../components/layouts/RegistrationLayout";
 import { useToast } from "../../components/Toast/ToastProvider";
 import { supabase } from "../../config/supabase";
 import SearchableCombobox from "../../components/SearchableCombobox";
-
-const SCHOOLS_CSV_URL = "https://raw.githubusercontent.com/MLH/mlh-policies/main/schools.csv";
-
-const AGE_RANGES = ["Under 18", "18–20", "21–24", "25–30", "31+"];
-
-const MAJOR_SUGGESTIONS = [
-  "Computer Science", "Computer Engineering", "Electrical Engineering",
-  "Mechanical Engineering", "Civil Engineering", "Chemical Engineering",
-  "Biomedical Engineering", "Information Science", "Software Engineering",
-  "Data Science", "Artificial Intelligence", "Cybersecurity",
-  "Mathematics", "Statistics", "Physics", "Chemistry", "Biology",
-  "Neuroscience", "Economics", "Business Administration", "Finance",
-  "Marketing", "Psychology", "Cognitive Science", "Linguistics",
-  "Political Science", "Sociology", "Philosophy", "Design",
-  "Architecture", "Art", "Music", "Undecided",
-];
-
-const GENDER_OPTIONS = ["Male", "Female", "Non-binary", "Prefer not to say", "Other"];
-
-const DIETARY_OPTIONS = [
-  "None",
-  "Vegetarian",
-  "Vegan",
-  "Gluten-Free",
-  "Halal",
-  "Kosher",
-  "Nut Allergy",
-  "Other",
-];
-
-const SHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL"];
+import {
+  AGE_RANGES,
+  DIETARY_OPTIONS,
+  GENDER_OPTIONS,
+  MAJOR_SUGGESTIONS,
+  profileSchema,
+  SCHOOLS_CSV_URL,
+  SHIRT_SIZES,
+} from "../../lib/formConfig";
 
 interface FormData {
   firstName: string;
@@ -45,7 +23,7 @@ interface FormData {
   university: string;
   major: string;
   gender: string;
-  dietaryRestrictions: string;
+  dietaryRestrictions: string[];
   shirtSize: string;
 }
 
@@ -67,9 +45,9 @@ const Chevron = () => (
 );
 
 const Field = ({
-  label, required, children,
+  label, required, error, children,
 }: {
-  label: string; required?: boolean; children: React.ReactNode;
+  label: string; required?: boolean; error?: string; children: React.ReactNode;
 }) => (
   <div className="flex flex-col gap-1.5">
     <label className="text-sm text-gray-600 font-poppins font-medium">
@@ -77,6 +55,7 @@ const Field = ({
       {required && <span className="text-red5 ml-0.5">*</span>}
     </label>
     {children}
+    {error && <p className="text-xs text-red-600">{error}</p>}
   </div>
 );
 
@@ -93,18 +72,26 @@ const Profile = () => {
   const [form, setForm] = useState<FormData>({
     firstName: "", lastName: "", email: "", phoneNumber: "",
     age: "", graduationYear: "", university: "", major: "",
-    gender: "", dietaryRestrictions: "", shirtSize: "",
+    gender: "", dietaryRestrictions: [], shirtSize: "",
   });
 
   const [emailVerified, setEmailVerified] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   // Load from localStorage + Supabase auth email on mount
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
-        setForm((prev) => ({ ...prev, ...JSON.parse(stored) }));
+        const parsed = JSON.parse(stored);
+        // Migrate legacy single-string dietary value to array.
+        if (typeof parsed.dietaryRestrictions === "string") {
+          parsed.dietaryRestrictions = parsed.dietaryRestrictions
+            ? [parsed.dietaryRestrictions]
+            : [];
+        }
+        setForm((prev) => ({ ...prev, ...parsed }));
       } catch { /* ignore */ }
     }
     supabase.auth.getUser().then(({ data }) => {
@@ -114,8 +101,28 @@ const Profile = () => {
     });
   }, []);
 
+  const clearFieldError = (field: keyof FormData) => {
+    setErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
+
   const handleChange = (field: keyof FormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    clearFieldError(field);
+  };
+
+  const toggleDietary = (option: string) => {
+    setForm((prev) => ({
+      ...prev,
+      dietaryRestrictions: prev.dietaryRestrictions.includes(option)
+        ? prev.dietaryRestrictions.filter((d) => d !== option)
+        : [...prev.dietaryRestrictions, option],
+    }));
+    clearFieldError("dietaryRestrictions");
   };
 
   const handlePhoneChange = (value: string) => {
@@ -128,11 +135,21 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
+    const result = profileSchema.safeParse(form);
+    if (!result.success) {
+      const newErrors: Partial<Record<keyof FormData, string>> = {};
+      for (const issue of result.error.issues) {
+        const field = issue.path[0] as keyof FormData;
+        if (field && !newErrors[field]) newErrors[field] = issue.message;
+      }
+      setErrors(newErrors);
+      showToast("Please fix the highlighted fields.", "error");
+      return;
+    }
+    setErrors({});
     setSaving(true);
     try {
-      // Persist extended fields to localStorage for profile sync
       localStorage.setItem(STORAGE_KEY, JSON.stringify(form));
-      // Update Supabase profile with full_name
       await fetch("/api/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -162,7 +179,7 @@ const Profile = () => {
             {/* Personal Info */}
             <SectionHeader title="Personal Info" />
 
-            <Field label="First Name" required>
+            <Field label="First Name" required error={errors.firstName}>
               <input
                 type="text" placeholder="Jane"
                 value={form.firstName}
@@ -171,7 +188,7 @@ const Profile = () => {
               />
             </Field>
 
-            <Field label="Last Name" required>
+            <Field label="Last Name" required error={errors.lastName}>
               <input
                 type="text" placeholder="Smith"
                 value={form.lastName}
@@ -180,7 +197,7 @@ const Profile = () => {
               />
             </Field>
 
-            <Field label="Email" required>
+            <Field label="Email" required error={errors.email}>
               <div className="flex gap-2">
                 <input
                   type="email" placeholder="you@example.com"
@@ -199,7 +216,7 @@ const Profile = () => {
               </div>
             </Field>
 
-            <Field label="Phone Number" required>
+            <Field label="Phone Number" required error={errors.phoneNumber}>
               <input
                 type="tel" placeholder="(___) ___-____"
                 value={form.phoneNumber}
@@ -211,7 +228,7 @@ const Profile = () => {
             {/* Academic Info */}
             <SectionHeader title="Academic Info" />
 
-            <Field label="Age Range" required>
+            <Field label="Age Range" required error={errors.age}>
               <div className="relative">
                 <select
                   value={form.age}
@@ -225,7 +242,7 @@ const Profile = () => {
               </div>
             </Field>
 
-            <Field label="Graduation Year" required>
+            <Field label="Graduation Year" required error={errors.graduationYear}>
               <input
                 type="number" placeholder="2027"
                 value={form.graduationYear}
@@ -234,7 +251,7 @@ const Profile = () => {
               />
             </Field>
 
-            <Field label="School / University" required>
+            <Field label="School / University" required error={errors.university}>
               <SearchableCombobox
                 value={form.university}
                 onChange={(v) => handleChange("university", v)}
@@ -248,7 +265,7 @@ const Profile = () => {
               <SearchableCombobox
                 value={form.major}
                 onChange={(v) => handleChange("major", v)}
-                staticOptions={MAJOR_SUGGESTIONS}
+                staticOptions={[...MAJOR_SUGGESTIONS]}
                 placeholder="e.g. Computer Science"
                 allowCustomValue
               />
@@ -271,38 +288,70 @@ const Profile = () => {
               </div>
             </Field>
 
-            <Field label="Dietary Restrictions / Allergies">
-              <div className="relative">
-                <select
-                  value={form.dietaryRestrictions}
-                  onChange={(e) => handleChange("dietaryRestrictions", e.target.value)}
-                  className={`${selectCls} ${!form.dietaryRestrictions ? "text-gray-400" : "text-gray-800"}`}
-                >
-                  <option value="" disabled>Select restriction</option>
-                  {DIETARY_OPTIONS.map((d) => <option key={d} value={d}>{d}</option>)}
-                </select>
-                <Chevron />
-              </div>
-            </Field>
+            <div className="col-span-2">
+              <Field label="Dietary Restrictions / Allergies">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-1">
+                  {DIETARY_OPTIONS.map((option) => {
+                    const checked = form.dietaryRestrictions.includes(option);
+                    return (
+                      <div key={option} className="flex gap-1.5 items-center">
+                        <button
+                          type="button"
+                          onClick={() => toggleDietary(option)}
+                          className={`w-5 h-5 rounded-sm border flex items-center justify-center flex-shrink-0 ${
+                            checked
+                              ? "border-[#fe1736] bg-[#fe1736]"
+                              : "border-[#e9e9e9] bg-white"
+                          }`}
+                        >
+                          {checked && (
+                            <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+                              <path d="M1 5L4.5 8.5L11 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          )}
+                        </button>
+                        <label
+                          onClick={() => toggleDietary(option)}
+                          className={`text-sm font-poppins cursor-pointer transition-colors ${
+                            checked ? "text-red6 font-semibold" : "text-gray-600"
+                          }`}
+                        >
+                          {option}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Field>
+            </div>
 
             <div className="col-span-full">
               <Field label="Shirt Size (US sizing)">
                 <div className="flex items-center gap-6 mt-1">
-                  {SHIRT_SIZES.map((size) => (
-                    <label key={size} className="flex items-center gap-1.5 cursor-pointer">
-                      <input
-                        type="radio" name="shirtSize" value={size}
-                        checked={form.shirtSize === size}
-                        onChange={() => handleChange("shirtSize", size)}
-                        className="accent-red5 w-4 h-4 cursor-pointer"
-                      />
-                      <span className={`text-sm font-poppins transition-colors ${
-                        form.shirtSize === size ? "text-red6 font-semibold" : "text-gray-600"
-                      }`}>
-                        {size}
-                      </span>
-                    </label>
-                  ))}
+                  {SHIRT_SIZES.map((size) => {
+                    const selected = form.shirtSize === size;
+                    return (
+                      <div key={size} className="flex gap-1.5 items-center">
+                        <button
+                          type="button"
+                          onClick={() => handleChange("shirtSize", size)}
+                          className={`w-5 h-5 rounded-full border flex items-center justify-center bg-white ${
+                            selected ? "border-[#fe1736]" : "border-[#9c9494]"
+                          }`}
+                        >
+                          {selected && <div className="w-3 h-3 rounded-full bg-[#fe1736]" />}
+                        </button>
+                        <label
+                          onClick={() => handleChange("shirtSize", size)}
+                          className={`text-sm font-poppins cursor-pointer transition-colors ${
+                            selected ? "text-red6 font-semibold" : "text-gray-600"
+                          }`}
+                        >
+                          {size}
+                        </label>
+                      </div>
+                    );
+                  })}
                 </div>
               </Field>
             </div>

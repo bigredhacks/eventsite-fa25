@@ -51,7 +51,9 @@ function profileCompletion(): { pct: number; missing: string[] } {
       dietaryRestrictions: "Dietary Restrictions",
       shirtSize: "Shirt Size",
     };
-    const missing = Object.entries(fields).filter(([k]) => !saved[k]).map(([, v]) => v);
+    const isEmpty = (v: unknown) =>
+      v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0);
+    const missing = Object.entries(fields).filter(([k]) => isEmpty(saved[k])).map(([, v]) => v);
     const pct = Math.round(((Object.keys(fields).length - missing.length) / Object.keys(fields).length) * 100);
     return { pct, missing };
   } catch {

@@ -15,13 +15,24 @@ function buildProfileValues(): Record<string, any> | null {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
     if (!saved.firstName && !saved.lastName && !saved.email) return null;
+    // Dietary may be stored as a string (legacy single-select) or array
+    // (current multi-select). Normalize to an array for the form.
+    const dietary = Array.isArray(saved.dietaryRestrictions)
+      ? saved.dietaryRestrictions
+      : saved.dietaryRestrictions
+        ? [saved.dietaryRestrictions]
+        : [];
     return {
       first_name: saved.firstName || "",
       last_name: saved.lastName || "",
       email: saved.email || "",
       phone_number: saved.phoneNumber || "",
+      age: saved.age || "",
+      school: saved.university || "",
       major: saved.major || "",
-      dietary_restrictions: saved.dietaryRestrictions ? [saved.dietaryRestrictions] : [],
+      gender: saved.gender || "",
+      shirt_size: saved.shirtSize || "",
+      dietary_restrictions: dietary,
     };
   } catch {
     return null;
@@ -126,7 +137,7 @@ export default function ApplicationPanel({ isOpen, onClose, onSubmitted }: Appli
         )}
 
         {/* Form content */}
-        <div className="flex-1 overflow-y-auto px-8 py-6">
+        <div className="flex-1 overflow-y-auto overscroll-contain px-8 py-6">
           {isSubmitted ? (
             <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
               <p className="text-6xl font-jersey10 text-red5">Done!</p>

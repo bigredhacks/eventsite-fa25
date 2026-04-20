@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 // Form field types
 export type FormFieldType =
   | "text"
@@ -31,6 +33,7 @@ export interface EmailFormField extends BaseFormField {
 export interface CsvOptionsSource {
   type: "csv";
   url: string;
+  csvType: "schools" | "countries";
 }
 
 export interface DropdownFormField extends BaseFormField {
@@ -91,7 +94,79 @@ export interface FormConfig {
   title: string;
   description?: string;
   fields: FormField[];
+  // Optional runtime validation schema. When present, DynamicForm uses
+  // safeParse instead of the built-in required-only check.
+  schema?: z.ZodType;
 }
+
+// ---------------------------------------------------------------------------
+// Shared option constants (used by both the profile page and the application
+// form). Kept here so the two surfaces can't drift out of sync.
+// ---------------------------------------------------------------------------
+
+export const SCHOOLS_CSV_URL =
+  "https://raw.githubusercontent.com/MLH/mlh-policies/main/schools.csv";
+export const COUNTRIES_CSV_URL =
+  "https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/refs/heads/master/all/all.csv";
+
+export const AGE_RANGES = [
+  "Under 18",
+  "18–20",
+  "21–24",
+  "25–30",
+  "31+",
+] as const;
+
+export const MAJOR_SUGGESTIONS = [
+  "Computer Science", "Computer Engineering", "Electrical Engineering",
+  "Mechanical Engineering", "Civil Engineering", "Chemical Engineering",
+  "Biomedical Engineering", "Information Science", "Software Engineering",
+  "Data Science", "Artificial Intelligence", "Cybersecurity",
+  "Mathematics", "Statistics", "Physics", "Chemistry", "Biology",
+  "Neuroscience", "Economics", "Business Administration", "Finance",
+  "Marketing", "Psychology", "Cognitive Science", "Linguistics",
+  "Political Science", "Sociology", "Philosophy", "Design",
+  "Architecture", "Art", "Music", "Undecided",
+] as const;
+
+export const GENDER_OPTIONS = [
+  "Male",
+  "Female",
+  "Non-binary",
+  "Prefer not to say",
+  "Other",
+] as const;
+
+export const DIETARY_OPTIONS = [
+  "None",
+  "Vegetarian",
+  "Vegan",
+  "Gluten-Free",
+  "Halal",
+  "Kosher",
+  "Nut Allergy",
+  "Other",
+] as const;
+
+export const SHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL"] as const;
+
+export const LEVEL_OF_STUDY_OPTIONS = [
+  "Less than Secondary / High School",
+  "Secondary / High School",
+  "Undergraduate University (2 year - community college or similar)",
+  "Undergraduate University (3+ year)",
+  "Graduate University (Masters, Professional, Doctoral, etc)",
+  "Code School / Bootcamp",
+  "Other Vocational / Trade Program or Apprenticeship",
+  "Post Doctorate",
+  "Other",
+  "I'm not currently a student",
+  "Prefer not to answer",
+] as const;
+
+// ---------------------------------------------------------------------------
+// Form configurations
+// ---------------------------------------------------------------------------
 
 export const teamMatchingFormConfig: FormConfig = {
   title: "BigRed//Hacks Fall 2025 Team Matching",
@@ -162,9 +237,65 @@ export const teamMatchingFormConfig: FormConfig = {
   ],
 };
 
+// Schema used by the standalone Profile page. Field names use camelCase to
+// match profile's FormData shape (which is what gets persisted to
+// localStorage as "brh_profile").
+export const profileSchema = z.object({
+  firstName: z.string().trim().min(1, "First name is required"),
+  lastName: z.string().trim().min(1, "Last name is required"),
+  email: z.email("Enter a valid email address"),
+  phoneNumber: z
+    .string()
+    .trim()
+    .regex(/^\(\d{3}\) \d{3}-\d{4}$/, "Use format (XXX) XXX-XXXX"),
+  age: z.enum(AGE_RANGES, { message: "Please select an age range" }),
+  graduationYear: z
+    .string()
+    .trim()
+    .regex(/^\d{4}$/, "Enter a 4-digit year")
+    .refine((v) => {
+      const n = parseInt(v, 10);
+      return n >= 2020 && n <= 2035;
+    }, "Year must be between 2020 and 2035"),
+  university: z.string().trim().min(1, "School is required"),
+  major: z.string().trim().optional().or(z.literal("")),
+  gender: z.enum(GENDER_OPTIONS).optional().or(z.literal("")),
+  dietaryRestrictions: z.array(z.enum(DIETARY_OPTIONS)).optional(),
+  shirtSize: z.enum(SHIRT_SIZES).optional().or(z.literal("")),
+});
+
+export const hackathonRegistrationApplicationSchema = z.object({
+  first_name: z.string().trim().min(1, "First name is required"),
+  last_name: z.string().trim().min(1, "Last name is required"),
+  age: z.enum(AGE_RANGES, { message: "Please select an age range" }),
+  phone_number: z
+    .string()
+    .trim()
+    .regex(/^\(\d{3}\) \d{3}-\d{4}$/, "Use format (XXX) XXX-XXXX"),
+  email: z.email("Enter a valid email address"),
+  linkedin: z.url("Enter a valid LinkedIn URL").optional().or(z.literal("")),
+  school: z.string().trim().min(1, "School is required"),
+  country: z.string().trim().min(1, "Country is required"),
+  level_of_study: z.enum(LEVEL_OF_STUDY_OPTIONS, {
+    message: "Please select a level of study",
+  }),
+  major: z.string().trim().optional().or(z.literal("")),
+  gender: z.enum(GENDER_OPTIONS, { message: "Please select an option" }),
+  dietary_restrictions: z.array(z.enum(DIETARY_OPTIONS)).optional(),
+  shirt_size: z.enum(SHIRT_SIZES, { message: "Please select a shirt size" }),
+  mlh_code_of_conduct: z.literal(true, {
+    message: "You must agree to the MLH Code of Conduct",
+  }),
+  mlh_data_sharing_consent: z.literal(true, {
+    message: "You must agree to the MLH data sharing terms",
+  }),
+  mlh_emails_opt_in: z.boolean().optional(),
+});
+
 export const hackathonRegistrationFormConfig: FormConfig = {
   title: "BigRed//Hacks Fall 2025 Registration",
   description: "Complete your registration for the hackathon",
+  schema: hackathonRegistrationApplicationSchema,
   fields: [
     {
       id: "first_name",
@@ -182,10 +313,10 @@ export const hackathonRegistrationFormConfig: FormConfig = {
     },
     {
       id: "age",
-      label: "Age",
-      type: "text",
+      label: "Age Range",
+      type: "dropdown",
       required: true,
-      placeholder: "18",
+      options: [...AGE_RANGES],
     },
     {
       id: "phone_number",
@@ -218,7 +349,8 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       options: [],
       optionsSource: {
         type: "csv",
-        url: "https://raw.githubusercontent.com/MLH/mlh-policies/main/schools.csv",
+        url: SCHOOLS_CSV_URL,
+        csvType: "schools",
       },
     },
     {
@@ -230,7 +362,8 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       options: [],
       optionsSource: {
         type: "csv",
-        url: "/countries.csv",
+        url: COUNTRIES_CSV_URL,
+        csvType: "countries",
       },
     },
     {
@@ -238,40 +371,37 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       label: "Level of Study",
       type: "dropdown",
       required: true,
-      options: [
-        "Less than Secondary / High School",
-        "Secondary / High School",
-        "Undergraduate University (2 year - community college or similar)",
-        "Undergraduate University (3+ year)",
-        "Graduate University (Masters, Professional, Doctoral, etc)",
-        "Code School / Bootcamp",
-        "Other Vocational / Trade Program or Apprenticeship",
-        "Post Doctorate",
-        "Other",
-        "I'm not currently a student",
-        "Prefer not to answer",
-      ],
+      options: [...LEVEL_OF_STUDY_OPTIONS],
     },
     {
       id: "major",
       label: "Major",
-      type: "text",
+      type: "dropdown",
       required: false,
-      placeholder: "Computer Science",
+      searchable: true,
+      allowCustomValue: true,
+      options: [...MAJOR_SUGGESTIONS],
+    },
+    {
+      id: "gender",
+      label: "Gender",
+      type: "radio",
+      required: true,
+      options: [...GENDER_OPTIONS],
     },
     {
       id: "dietary_restrictions",
       label: "Dietary Restrictions",
       type: "checkboxGroup",
       required: false,
-      options: [
-        "Vegetarian",
-        "Vegan",
-        "Celiac Disease",
-        "Allergies",
-        "Kosher",
-        "Halal",
-      ],
+      options: [...DIETARY_OPTIONS],
+    },
+    {
+      id: "shirt_size",
+      label: "Shirt Size",
+      type: "radio",
+      required: true,
+      options: [...SHIRT_SIZES],
     },
     {
       id: "mlh_code_of_conduct",
