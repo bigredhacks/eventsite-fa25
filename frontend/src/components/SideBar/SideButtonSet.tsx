@@ -1,10 +1,22 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideButton from "./SideButton";
 import { ICONS } from "../../constants/icons";
 import { supabase } from "../../config/supabase";
+import { getJwtPayload } from "../../utils/jwt";
 
 const SideButtonSet = () => {
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        const payload = getJwtPayload(session.access_token);
+        setIsAdmin(payload.user_role === "admin");
+      }
+    });
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -41,13 +53,15 @@ const SideButtonSet = () => {
       >
         Team
       </SideButton>
-      <SideButton
-        to="/admin"
-        icon={ICONS.admin}
-        activeIcon={ICONS.activeAdmin}
-      >
-        Admin
-      </SideButton>
+      {isAdmin && (
+        <SideButton
+          to="/admin"
+          icon={ICONS.admin}
+          activeIcon={ICONS.activeAdmin}
+        >
+          Admin
+        </SideButton>
+      )}
       <button
         onClick={handleLogout}
         className="flex items-center gap-3 px-4 h-12 font-medium rounded-lg transition-colors duration-200 text-white hover:bg-red4 w-full"

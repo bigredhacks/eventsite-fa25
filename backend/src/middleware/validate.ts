@@ -3,11 +3,14 @@ import { ZodType, ZodError } from 'zod';
 
 /**
  * Express middleware factory that validates request data against Zod schemas.
+ * On success, mutates req.params / req.body / req.query with the parsed
+ * (and coerced) values so route handlers see the correct types.
  *
- * @param schema.body - Schema to validate req.body
+ * @param schema.body   - Schema to validate req.body
  * @param schema.params - Schema to validate req.params
+ * @param schema.query  - Schema to validate req.query
  */
-export function validate(schema: { body?: ZodType; params?: ZodType }) {
+export function validate(schema: { body?: ZodType; params?: ZodType; query?: ZodType }) {
   return (req: Request, res: Response, next: NextFunction) => {
     const errors: { field: string; message: string }[] = [];
 
@@ -15,6 +18,8 @@ export function validate(schema: { body?: ZodType; params?: ZodType }) {
       const result = schema.params.safeParse(req.params);
       if (!result.success) {
         errors.push(...formatErrors(result.error));
+      } else {
+        req.params = result.data as Record<string, string>;
       }
     }
 
@@ -22,6 +27,18 @@ export function validate(schema: { body?: ZodType; params?: ZodType }) {
       const result = schema.body.safeParse(req.body);
       if (!result.success) {
         errors.push(...formatErrors(result.error));
+      } else {
+        req.body = result.data;
+      }
+    }
+
+    if (schema.query) {
+      const result = schema.query.safeParse(req.query);
+      if (!result.success) {
+        errors.push(...formatErrors(result.error));
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        req.query = result.data as any;
       }
     }
 

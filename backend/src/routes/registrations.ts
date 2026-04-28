@@ -27,11 +27,23 @@ router.post(
   validate({ body: CreateRegistrationSchema }),
   async (req: Request<{}, {}, CreateRegistrationBody>, res: Response) => {
     try {
-      const { first_name, last_name } = req.body;
+      const body = req.body;
+
+      // Optionally link to an authenticated user if a valid JWT is present.
+      // Auth is not required — unauthenticated submissions are allowed.
+      let user_id: string | null = null;
+      const authHeader = req.headers.authorization;
+      if (authHeader?.startsWith('Bearer ')) {
+        const token = authHeader.split(' ')[1];
+        const { data: authData } = await supabase.auth.getUser(token);
+        if (authData?.user) user_id = authData.user.id;
+      }
+
+      const insertRow = { ...body, ...(user_id ? { user_id } : {}) };
 
       const { data, error } = await supabase
         .from('registrations')
-        .insert({ first_name, last_name })
+        .insert(insertRow)
         .select()
         .single();
 

@@ -13,6 +13,7 @@ import Profile from "./pages/registration/profile";
 import RegistrationTeam from "./pages/registration/team";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { RequireAdmin } from "./components/RequireAdmin";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -21,7 +22,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<App />} />
         <Route path="/apply" element={<ApplyPage />} />
         <Route path="/team" element={<TeamPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin" element={<RequireAdmin><AdminPage /></RequireAdmin>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/auth/reset-password" element={<ResetPasswordPage />} />

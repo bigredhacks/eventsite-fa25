@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RegistrationLayout from "../../components/layouts/RegistrationLayout";
+import { supabase } from "../../config/supabase";
 
 const AGE_OPTIONS = Array.from({ length: 83 }, (_, i) => String(i + 16));
 
@@ -104,10 +105,37 @@ const Profile = () => {
 
   const [emailVerified, setEmailVerified] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  // Load existing profile on mount
+  useEffect(() => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) return;
+      const res = await fetch("/api/profile", {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (!res.ok) return;
+      const profile = await res.json();
+      setForm({
+        firstName: profile.first_name ?? "",
+        lastName: profile.last_name ?? "",
+        email: profile.email ?? session.user.email ?? "",
+        phoneNumber: profile.phone_number ?? "",
+        age: profile.age != null ? String(profile.age) : "",
+        graduationYear: profile.graduation_year != null ? String(profile.graduation_year) : "",
+        university: profile.university ?? "",
+        major: profile.major ?? "",
+        gender: profile.gender ?? "",
+        dietaryRestrictions: profile.dietary_restrictions ?? "",
+        shirtSize: profile.shirt_size ?? "",
+      });
+    });
+  }, []);
 
   const handleChange = (field: keyof FormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     setSaved(false);
+    setSaveError(null);
   };
 
   const handlePhoneChange = (value: string) => {
@@ -119,7 +147,36 @@ const Profile = () => {
     handleChange("phoneNumber", formatted);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    setSaveError(null);
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { setSaveError("Not authenticated"); return; }
+
+    const res = await fetch("/api/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({
+        first_name: form.firstName,
+        last_name: form.lastName,
+        phone_number: form.phoneNumber,
+        age: form.age ? Number(form.age) : undefined,
+        graduation_year: form.graduationYear ? Number(form.graduationYear) : undefined,
+        university: form.university,
+        major: form.major,
+        gender: form.gender,
+        dietary_restrictions: form.dietaryRestrictions,
+        shirt_size: form.shirtSize,
+      }),
+    });
+
+    if (!res.ok) {
+      setSaveError("Failed to save. Please try again.");
+      return;
+    }
+
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
@@ -273,7 +330,10 @@ const Profile = () => {
             </Field>
           </div>
 
-          <div className="flex justify-center mt-8">
+          <div className="flex flex-col items-center gap-2 mt-8">
+            {saveError && (
+              <p className="text-red-600 text-sm font-medium">{saveError}</p>
+            )}
             <button
               onClick={handleSave}
               className={`w-72 py-3 rounded-lg text-white font-semibold text-base font-poppins transition-all duration-200 active:scale-95 ${
