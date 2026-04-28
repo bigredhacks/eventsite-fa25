@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 // Form field types
 export type FormFieldType =
   | "text"
@@ -31,6 +33,7 @@ export interface EmailFormField extends BaseFormField {
 export interface CsvOptionsSource {
   type: "csv";
   url: string;
+  csvType: "schools" | "countries";
 }
 
 export interface DropdownFormField extends BaseFormField {
@@ -90,12 +93,191 @@ export type FormField =
 export interface FormConfig {
   title: string;
   description?: string;
+  schema: z.ZodType;
   fields: FormField[];
 }
+
+// ---------------------------------------------------------------------------
+// Shared option constants (used by both the profile page and the application
+// form). Kept here so the two surfaces can't drift out of sync.
+// ---------------------------------------------------------------------------
+
+export const SCHOOLS_CSV_URL =
+  "https://raw.githubusercontent.com/MLH/mlh-policies/main/schools.csv";
+export const COUNTRIES_CSV_URL =
+  "https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/refs/heads/master/all/all.csv";
+
+export const AGE_RANGES = [
+  "Under 18",
+  "18–20",
+  "21–24",
+  "25–30",
+  "31+",
+] as const;
+
+export const MAJOR_SUGGESTIONS = [
+  "Africana Studies",
+  "Agricultural Sciences",
+  "American Studies",
+  "Animal Science",
+  "Anthropology",
+  "Applied Economics and Management",
+  "Archaeology",
+  "Architecture",
+  "Asian Studies",
+  "Astronomy",
+  "Atmospheric Science",
+  "Biological Engineering",
+  "Biological Sciences",
+  "Biology and Society",
+  "Biomedical Engineering",
+  "Biometry and Statistics",
+  "Chemical Engineering",
+  "Chemistry",
+  "China and Asia-Pacific Studies",
+  "Civil Engineering",
+  "Classics",
+  "Cognitive Science",
+  "College Scholar",
+  "Communication",
+  "Comparative Literature",
+  "Computer Science",
+  "Design and Environmental Analysis",
+  "Earth and Atmospheric Sciences",
+  "Economics",
+  "Electrical and Computer Engineering",
+  "Engineering Physics",
+  "English",
+  "Entomology",
+  "Environment and Sustainability",
+  "Environmental Engineering",
+  "Fashion Design and Management",
+  "Feminist, Gender, and Sexuality Studies",
+  "Fiber Science",
+  "Fine Arts",
+  "Food Science",
+  "French",
+  "German Studies",
+  "Global and Public Health Sciences",
+  "Global Development",
+  "Government",
+  "Health Care Policy",
+  "History",
+  "History of Art",
+  "Hotel Administration",
+  "Human Biology, Health, and Society",
+  "Human Development",
+  "Independent Major",
+  "Industrial and Labor Relations",
+  "Information Science",
+  "Information Science, Systems, and Technology",
+  "Italian",
+  "Jewish Studies",
+  "Landscape Architecture",
+  "Linguistics",
+  "Materials Science and Engineering",
+  "Mathematics",
+  "Mechanical Engineering",
+  "Music",
+  "Near Eastern Studies",
+  "Nutritional Sciences",
+  "Operations Research and Engineering",
+  "Performing and Media Arts",
+  "Philosophy",
+  "Physics",
+  "Plant Sciences",
+  "Psychology",
+  "Public Policy",
+  "Religious Studies",
+  "Science and Technology Studies",
+  "Sociology",
+  "Spanish",
+  "Statistical Science",
+  "Undecided",
+  "Urban and Regional Studies",
+  "Viticulture and Enology",
+] as const;
+
+export const GENDER_OPTIONS = [
+  "Male",
+  "Female",
+  "Non-binary",
+  "Prefer not to say",
+  "Other",
+] as const;
+
+export const DIETARY_OPTIONS = [
+  "None",
+  "Vegetarian",
+  "Vegan",
+  "Gluten-Free",
+  "Halal",
+  "Kosher",
+  "Nut Allergy",
+  "Other",
+] as const;
+
+export const SHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL"] as const;
+
+export const LEVEL_OF_STUDY_OPTIONS = [
+  "Secondary / High School",
+  "Freshman",
+  "Sophomore",
+  "Junior",
+  "Senior",
+  "I'm not currently a student",
+] as const;
+
+// ---------------------------------------------------------------------------
+// Form configurations
+// ---------------------------------------------------------------------------
+
+export const teamMatchingSchema = z.object({
+  email: z.email("Enter a valid email address"),
+  full_name: z.string().trim().min(1, "Full name is required"),
+  technical_skills: z.object({
+    Frontend: z.enum(["Beginner", "Intermediate", "Advanced"], {
+      message: "Please select an option for all rows",
+    }),
+    Backend: z.enum(["Beginner", "Intermediate", "Advanced"], {
+      message: "Please select an option for all rows",
+    }),
+    Design: z.enum(["Beginner", "Intermediate", "Advanced"], {
+      message: "Please select an option for all rows",
+    }),
+    Hardware: z.enum(["Beginner", "Intermediate", "Advanced"], {
+      message: "Please select an option for all rows",
+    }),
+  }),
+  preferred_role: z.object({
+    Frontend: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+    Backend: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+    Design: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+    Hardware: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+    Any: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+  }),
+  backend_skills: z.string().trim().min(1, "Backend skills are required"),
+  frontend_skills: z.string().trim().min(1, "Frontend skills are required"),
+  design_skills: z.string().trim().min(1, "Design skills are required"),
+  first_time_hacker: z.enum(["Yes", "No"], {
+    message: "Please select an option",
+  }),
+});
 
 export const teamMatchingFormConfig: FormConfig = {
   title: "BigRed//Hacks Fall 2025 Team Matching",
   description: "Help us match you with the perfect team!",
+  schema: teamMatchingSchema,
   fields: [
     {
       id: "email",
@@ -162,30 +344,86 @@ export const teamMatchingFormConfig: FormConfig = {
   ],
 };
 
+// Schema used by the standalone Profile page. Field names use camelCase to
+// match profile's FormData shape (which is what gets persisted to
+// localStorage as "brh_profile").
+export const profileSchema = z.object({
+  firstName: z.string().trim().min(1, "First name is required"),
+  lastName: z.string().trim().min(1, "Last name is required"),
+  email: z.email("Enter a valid email address"),
+  phoneNumber: z
+    .string()
+    .trim()
+    .regex(/^\(\d{3}\) \d{3}-\d{4}$/, "Use format (XXX) XXX-XXXX"),
+  age: z.enum(AGE_RANGES, { message: "Please select an age range" }),
+  graduationYear: z
+    .string()
+    .trim()
+    .regex(/^\d{4}$/, "Enter a 4-digit year")
+    .refine((v) => {
+      const n = parseInt(v, 10);
+      return n >= 2020 && n <= 2035;
+    }, "Year must be between 2020 and 2035"),
+  university: z.string().trim().min(1, "School is required"),
+  major: z.string().trim().optional().or(z.literal("")),
+  gender: z.enum(GENDER_OPTIONS).optional().or(z.literal("")),
+  dietaryRestrictions: z.array(z.enum(DIETARY_OPTIONS)).optional(),
+  shirtSize: z.enum(SHIRT_SIZES).optional().or(z.literal("")),
+});
+
+export const hackathonRegistrationApplicationSchema = z.object({
+  first_name: z.string().trim().min(1, "First name is required"),
+  last_name: z.string().trim().min(1, "Last name is required"),
+  age: z.enum(AGE_RANGES, { message: "Please select an age range" }),
+  phone_number: z
+    .string()
+    .trim()
+    .regex(/^\(\d{3}\) \d{3}-\d{4}$/, "Use format (XXX) XXX-XXXX"),
+  email: z.email("Enter a valid email address"),
+  linkedin: z.url("Enter a valid LinkedIn URL").optional().or(z.literal("")),
+  school: z.string().trim().min(1, "School is required"),
+  country: z.string().trim().min(1, "Country is required"),
+  level_of_study: z.enum(LEVEL_OF_STUDY_OPTIONS, {
+    message: "Please select a level of study",
+  }),
+  major: z.string().trim().optional().or(z.literal("")),
+  gender: z.enum(GENDER_OPTIONS, { message: "Please select an option" }),
+  dietary_restrictions: z.array(z.enum(DIETARY_OPTIONS)).optional(),
+  shirt_size: z.enum(SHIRT_SIZES, { message: "Please select a shirt size" }),
+  mlh_code_of_conduct: z.literal(true, {
+    message: "You must agree to the MLH Code of Conduct",
+  }),
+  mlh_data_sharing_consent: z.literal(true, {
+    message: "You must agree to the MLH data sharing terms",
+  }),
+  mlh_emails_opt_in: z.boolean().optional(),
+});
+
 export const hackathonRegistrationFormConfig: FormConfig = {
   title: "BigRed//Hacks Fall 2025 Registration",
   description: "Complete your registration for the hackathon",
+  schema: hackathonRegistrationApplicationSchema,
   fields: [
     {
       id: "first_name",
       label: "First Name",
       type: "text",
       required: true,
-      placeholder: "Jane",
+      placeholder: "First Name",
     },
     {
       id: "last_name",
       label: "Last Name",
       type: "text",
       required: true,
-      placeholder: "Smith",
+      placeholder: "Last Name",
     },
     {
       id: "age",
-      label: "Age",
-      type: "text",
+      label: "Age Range",
+      type: "dropdown",
       required: true,
-      placeholder: "18",
+      options: [...AGE_RANGES],
     },
     {
       id: "phone_number",
@@ -199,7 +437,7 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       label: "Email Address",
       type: "email",
       required: true,
-      placeholder: "your.email@cornell.edu",
+      placeholder: "bigredhacks@gmail.com",
     },
     {
       id: "linkedin",
@@ -218,7 +456,8 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       options: [],
       optionsSource: {
         type: "csv",
-        url: "https://raw.githubusercontent.com/MLH/mlh-policies/main/schools.csv",
+        url: SCHOOLS_CSV_URL,
+        csvType: "schools",
       },
     },
     {
@@ -230,7 +469,8 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       options: [],
       optionsSource: {
         type: "csv",
-        url: "/countries.csv",
+        url: COUNTRIES_CSV_URL,
+        csvType: "countries",
       },
     },
     {
@@ -238,40 +478,37 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       label: "Level of Study",
       type: "dropdown",
       required: true,
-      options: [
-        "Less than Secondary / High School",
-        "Secondary / High School",
-        "Undergraduate University (2 year - community college or similar)",
-        "Undergraduate University (3+ year)",
-        "Graduate University (Masters, Professional, Doctoral, etc)",
-        "Code School / Bootcamp",
-        "Other Vocational / Trade Program or Apprenticeship",
-        "Post Doctorate",
-        "Other",
-        "I'm not currently a student",
-        "Prefer not to answer",
-      ],
+      options: [...LEVEL_OF_STUDY_OPTIONS],
     },
     {
       id: "major",
       label: "Major",
-      type: "text",
+      type: "dropdown",
       required: false,
-      placeholder: "Computer Science",
+      searchable: true,
+      allowCustomValue: true,
+      options: [...MAJOR_SUGGESTIONS],
+    },
+    {
+      id: "gender",
+      label: "Gender",
+      type: "radio",
+      required: true,
+      options: [...GENDER_OPTIONS],
     },
     {
       id: "dietary_restrictions",
       label: "Dietary Restrictions",
       type: "checkboxGroup",
       required: false,
-      options: [
-        "Vegetarian",
-        "Vegan",
-        "Celiac Disease",
-        "Allergies",
-        "Kosher",
-        "Halal",
-      ],
+      options: [...DIETARY_OPTIONS],
+    },
+    {
+      id: "shirt_size",
+      label: "Shirt Size",
+      type: "radio",
+      required: true,
+      options: [...SHIRT_SIZES],
     },
     {
       id: "mlh_code_of_conduct",
@@ -301,9 +538,61 @@ export const hackathonRegistrationFormConfig: FormConfig = {
   ],
 };
 
+export const workshopFeedbackSchema = z.object({
+  email: z.email("Enter a valid email address").optional().or(z.literal("")),
+  workshop_name: z.string().trim().min(1, "Please select a workshop"),
+  rating: z.enum(["Excellent", "Good", "Average", "Poor", "Very Poor"], {
+    message: "Please select a rating",
+  }),
+  content_quality: z.object({
+    "Content Quality": z.enum(["Poor", "Fair", "Good", "Excellent"], {
+      message: "Please select an option for all rows",
+    }),
+    "Instructor Knowledge": z.enum(["Poor", "Fair", "Good", "Excellent"], {
+      message: "Please select an option for all rows",
+    }),
+    "Pace of Workshop": z.enum(["Poor", "Fair", "Good", "Excellent"], {
+      message: "Please select an option for all rows",
+    }),
+    "Hands-on Activities": z.enum(["Poor", "Fair", "Good", "Excellent"], {
+      message: "Please select an option for all rows",
+    }),
+  }),
+  topics_interest: z
+    .object({
+      "Advanced React Patterns": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+      "DevOps and CI/CD": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+      "Cybersecurity Basics": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+      "Cloud Computing (AWS/Azure)": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+      "Data Visualization": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+    })
+    .optional(),
+  improvements: z.string().optional(),
+  would_recommend: z.enum(
+    ["Definitely", "Probably", "Not Sure", "Probably Not", "Definitely Not"],
+    { message: "Please select an option" },
+  ),
+  contact_preferences: z
+    .array(z.enum(["Email", "Discord", "Slack", "SMS", "Don't contact me"]))
+    .optional(),
+  materials: z.unknown().optional(),
+  newsletter: z.boolean().optional(),
+});
+
 export const workshopFeedbackFormConfig: FormConfig = {
   title: "Workshop Feedback Form",
   description: "Help us improve our workshops by providing your feedback",
+  schema: workshopFeedbackSchema,
   fields: [
     {
       id: "email",

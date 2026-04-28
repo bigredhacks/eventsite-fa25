@@ -39,27 +39,13 @@ export default function DynamicForm({ config, onSubmit, isLoading = false, initi
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    config.fields.forEach((field) => {
-      if (field.required) {
-        const value = formData[field.id];
-
-        if (field.type === "checkboxGroup" || field.type === "multipleChoiceGrid" || field.type === "preferenceGrid") {
-          if (!value || (Array.isArray(value) && value.length === 0) || (typeof value === "object" && Object.keys(value).length === 0)) {
-            newErrors[field.id] = `${field.label} is required`;
-          }
-          // For grid fields, check all rows are filled
-          if (field.type === "multipleChoiceGrid" || field.type === "preferenceGrid") {
-            const rows = field.rows;
-            const missingRows = rows.filter(row => !value || !value[row]);
-            if (missingRows.length > 0) {
-              newErrors[field.id] = `Please select an option for all rows`;
-            }
-          }
-        } else if (!value || (typeof value === "string" && value.trim() === "")) {
-          newErrors[field.id] = `${field.label} is required`;
-        }
+    const result = config.schema.safeParse(formData);
+    if (!result.success) {
+      for (const issue of result.error.issues) {
+        const field = String(issue.path[0] ?? "form");
+        if (!newErrors[field]) newErrors[field] = issue.message;
       }
-    });
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

@@ -14,10 +14,12 @@ function buildInitialValues(): Record<string, any> {
       last_name: saved.lastName || "",
       email: saved.email || "",
       phone_number: saved.phoneNumber || "",
+      age: saved.age || "",
+      school: saved.university || "",
       major: saved.major || "",
-      dietary_restrictions: saved.dietaryRestrictions
-        ? [saved.dietaryRestrictions]
-        : [],
+      gender: saved.gender || "",
+      shirt_size: saved.shirtSize || "",
+      dietary_restrictions: saved.dietaryRestrictions || [],
     };
   } catch {
     return {};
