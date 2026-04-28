@@ -93,10 +93,8 @@ export type FormField =
 export interface FormConfig {
   title: string;
   description?: string;
+  schema: z.ZodType;
   fields: FormField[];
-  // Optional runtime validation schema. When present, DynamicForm uses
-  // safeParse instead of the built-in required-only check.
-  schema?: z.ZodType;
 }
 
 // ---------------------------------------------------------------------------
@@ -118,15 +116,86 @@ export const AGE_RANGES = [
 ] as const;
 
 export const MAJOR_SUGGESTIONS = [
-  "Computer Science", "Computer Engineering", "Electrical Engineering",
-  "Mechanical Engineering", "Civil Engineering", "Chemical Engineering",
-  "Biomedical Engineering", "Information Science", "Software Engineering",
-  "Data Science", "Artificial Intelligence", "Cybersecurity",
-  "Mathematics", "Statistics", "Physics", "Chemistry", "Biology",
-  "Neuroscience", "Economics", "Business Administration", "Finance",
-  "Marketing", "Psychology", "Cognitive Science", "Linguistics",
-  "Political Science", "Sociology", "Philosophy", "Design",
-  "Architecture", "Art", "Music", "Undecided",
+  "Africana Studies",
+  "Agricultural Sciences",
+  "American Studies",
+  "Animal Science",
+  "Anthropology",
+  "Applied Economics and Management",
+  "Archaeology",
+  "Architecture",
+  "Asian Studies",
+  "Astronomy",
+  "Atmospheric Science",
+  "Biological Engineering",
+  "Biological Sciences",
+  "Biology and Society",
+  "Biomedical Engineering",
+  "Biometry and Statistics",
+  "Chemical Engineering",
+  "Chemistry",
+  "China and Asia-Pacific Studies",
+  "Civil Engineering",
+  "Classics",
+  "Cognitive Science",
+  "College Scholar",
+  "Communication",
+  "Comparative Literature",
+  "Computer Science",
+  "Design and Environmental Analysis",
+  "Earth and Atmospheric Sciences",
+  "Economics",
+  "Electrical and Computer Engineering",
+  "Engineering Physics",
+  "English",
+  "Entomology",
+  "Environment and Sustainability",
+  "Environmental Engineering",
+  "Fashion Design and Management",
+  "Feminist, Gender, and Sexuality Studies",
+  "Fiber Science",
+  "Fine Arts",
+  "Food Science",
+  "French",
+  "German Studies",
+  "Global and Public Health Sciences",
+  "Global Development",
+  "Government",
+  "Health Care Policy",
+  "History",
+  "History of Art",
+  "Hotel Administration",
+  "Human Biology, Health, and Society",
+  "Human Development",
+  "Independent Major",
+  "Industrial and Labor Relations",
+  "Information Science",
+  "Information Science, Systems, and Technology",
+  "Italian",
+  "Jewish Studies",
+  "Landscape Architecture",
+  "Linguistics",
+  "Materials Science and Engineering",
+  "Mathematics",
+  "Mechanical Engineering",
+  "Music",
+  "Near Eastern Studies",
+  "Nutritional Sciences",
+  "Operations Research and Engineering",
+  "Performing and Media Arts",
+  "Philosophy",
+  "Physics",
+  "Plant Sciences",
+  "Psychology",
+  "Public Policy",
+  "Religious Studies",
+  "Science and Technology Studies",
+  "Sociology",
+  "Spanish",
+  "Statistical Science",
+  "Undecided",
+  "Urban and Regional Studies",
+  "Viticulture and Enology",
 ] as const;
 
 export const GENDER_OPTIONS = [
@@ -151,26 +220,64 @@ export const DIETARY_OPTIONS = [
 export const SHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL"] as const;
 
 export const LEVEL_OF_STUDY_OPTIONS = [
-  "Less than Secondary / High School",
   "Secondary / High School",
-  "Undergraduate University (2 year - community college or similar)",
-  "Undergraduate University (3+ year)",
-  "Graduate University (Masters, Professional, Doctoral, etc)",
-  "Code School / Bootcamp",
-  "Other Vocational / Trade Program or Apprenticeship",
-  "Post Doctorate",
-  "Other",
+  "Freshman",
+  "Sophomore",
+  "Junior",
+  "Senior",
   "I'm not currently a student",
-  "Prefer not to answer",
 ] as const;
 
 // ---------------------------------------------------------------------------
 // Form configurations
 // ---------------------------------------------------------------------------
 
+export const teamMatchingSchema = z.object({
+  email: z.email("Enter a valid email address"),
+  full_name: z.string().trim().min(1, "Full name is required"),
+  technical_skills: z.object({
+    Frontend: z.enum(["Beginner", "Intermediate", "Advanced"], {
+      message: "Please select an option for all rows",
+    }),
+    Backend: z.enum(["Beginner", "Intermediate", "Advanced"], {
+      message: "Please select an option for all rows",
+    }),
+    Design: z.enum(["Beginner", "Intermediate", "Advanced"], {
+      message: "Please select an option for all rows",
+    }),
+    Hardware: z.enum(["Beginner", "Intermediate", "Advanced"], {
+      message: "Please select an option for all rows",
+    }),
+  }),
+  preferred_role: z.object({
+    Frontend: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+    Backend: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+    Design: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+    Hardware: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+    Any: z.enum(["1", "2", "3", "4", "5"], {
+      message: "Please select an option for all rows",
+    }),
+  }),
+  backend_skills: z.string().trim().min(1, "Backend skills are required"),
+  frontend_skills: z.string().trim().min(1, "Frontend skills are required"),
+  design_skills: z.string().trim().min(1, "Design skills are required"),
+  first_time_hacker: z.enum(["Yes", "No"], {
+    message: "Please select an option",
+  }),
+});
+
 export const teamMatchingFormConfig: FormConfig = {
   title: "BigRed//Hacks Fall 2025 Team Matching",
   description: "Help us match you with the perfect team!",
+  schema: teamMatchingSchema,
   fields: [
     {
       id: "email",
@@ -302,14 +409,14 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       label: "First Name",
       type: "text",
       required: true,
-      placeholder: "Jane",
+      placeholder: "First Name",
     },
     {
       id: "last_name",
       label: "Last Name",
       type: "text",
       required: true,
-      placeholder: "Smith",
+      placeholder: "Last Name",
     },
     {
       id: "age",
@@ -330,7 +437,7 @@ export const hackathonRegistrationFormConfig: FormConfig = {
       label: "Email Address",
       type: "email",
       required: true,
-      placeholder: "your.email@cornell.edu",
+      placeholder: "bigredhacks@gmail.com",
     },
     {
       id: "linkedin",
@@ -431,9 +538,61 @@ export const hackathonRegistrationFormConfig: FormConfig = {
   ],
 };
 
+export const workshopFeedbackSchema = z.object({
+  email: z.email("Enter a valid email address").optional().or(z.literal("")),
+  workshop_name: z.string().trim().min(1, "Please select a workshop"),
+  rating: z.enum(["Excellent", "Good", "Average", "Poor", "Very Poor"], {
+    message: "Please select a rating",
+  }),
+  content_quality: z.object({
+    "Content Quality": z.enum(["Poor", "Fair", "Good", "Excellent"], {
+      message: "Please select an option for all rows",
+    }),
+    "Instructor Knowledge": z.enum(["Poor", "Fair", "Good", "Excellent"], {
+      message: "Please select an option for all rows",
+    }),
+    "Pace of Workshop": z.enum(["Poor", "Fair", "Good", "Excellent"], {
+      message: "Please select an option for all rows",
+    }),
+    "Hands-on Activities": z.enum(["Poor", "Fair", "Good", "Excellent"], {
+      message: "Please select an option for all rows",
+    }),
+  }),
+  topics_interest: z
+    .object({
+      "Advanced React Patterns": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+      "DevOps and CI/CD": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+      "Cybersecurity Basics": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+      "Cloud Computing (AWS/Azure)": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+      "Data Visualization": z.enum(["1", "2", "3", "4", "5"], {
+        message: "Please select an option for all rows",
+      }),
+    })
+    .optional(),
+  improvements: z.string().optional(),
+  would_recommend: z.enum(
+    ["Definitely", "Probably", "Not Sure", "Probably Not", "Definitely Not"],
+    { message: "Please select an option" },
+  ),
+  contact_preferences: z
+    .array(z.enum(["Email", "Discord", "Slack", "SMS", "Don't contact me"]))
+    .optional(),
+  materials: z.unknown().optional(),
+  newsletter: z.boolean().optional(),
+});
+
 export const workshopFeedbackFormConfig: FormConfig = {
   title: "Workshop Feedback Form",
   description: "Help us improve our workshops by providing your feedback",
+  schema: workshopFeedbackSchema,
   fields: [
     {
       id: "email",

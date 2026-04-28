@@ -15,13 +15,6 @@ function buildProfileValues(): Record<string, any> | null {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
     if (!saved.firstName && !saved.lastName && !saved.email) return null;
-    // Dietary may be stored as a string (legacy single-select) or array
-    // (current multi-select). Normalize to an array for the form.
-    const dietary = Array.isArray(saved.dietaryRestrictions)
-      ? saved.dietaryRestrictions
-      : saved.dietaryRestrictions
-        ? [saved.dietaryRestrictions]
-        : [];
     return {
       first_name: saved.firstName || "",
       last_name: saved.lastName || "",
@@ -32,7 +25,7 @@ function buildProfileValues(): Record<string, any> | null {
       major: saved.major || "",
       gender: saved.gender || "",
       shirt_size: saved.shirtSize || "",
-      dietary_restrictions: dietary,
+      dietary_restrictions: saved.dietaryRestrictions || [],
     };
   } catch {
     return null;

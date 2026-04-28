@@ -9,11 +9,6 @@ const STORAGE_KEY = "brh_profile";
 function buildInitialValues(): Record<string, any> {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    const dietary = Array.isArray(saved.dietaryRestrictions)
-      ? saved.dietaryRestrictions
-      : saved.dietaryRestrictions
-        ? [saved.dietaryRestrictions]
-        : [];
     return {
       first_name: saved.firstName || "",
       last_name: saved.lastName || "",
@@ -24,7 +19,7 @@ function buildInitialValues(): Record<string, any> {
       major: saved.major || "",
       gender: saved.gender || "",
       shirt_size: saved.shirtSize || "",
-      dietary_restrictions: dietary,
+      dietary_restrictions: saved.dietaryRestrictions || [],
     };
   } catch {
     return {};

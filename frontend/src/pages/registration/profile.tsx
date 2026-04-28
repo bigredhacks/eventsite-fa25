@@ -85,12 +85,6 @@ const Profile = () => {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        // Migrate legacy single-string dietary value to array.
-        if (typeof parsed.dietaryRestrictions === "string") {
-          parsed.dietaryRestrictions = parsed.dietaryRestrictions
-            ? [parsed.dietaryRestrictions]
-            : [];
-        }
         setForm((prev) => ({ ...prev, ...parsed }));
       } catch { /* ignore */ }
     }
@@ -181,7 +175,7 @@ const Profile = () => {
 
             <Field label="First Name" required error={errors.firstName}>
               <input
-                type="text" placeholder="Jane"
+                type="text" placeholder="First Name"
                 value={form.firstName}
                 onChange={(e) => handleChange("firstName", e.target.value)}
                 className={inputCls}
@@ -190,7 +184,7 @@ const Profile = () => {
 
             <Field label="Last Name" required error={errors.lastName}>
               <input
-                type="text" placeholder="Smith"
+                type="text" placeholder="Last Name"
                 value={form.lastName}
                 onChange={(e) => handleChange("lastName", e.target.value)}
                 className={inputCls}
@@ -200,7 +194,7 @@ const Profile = () => {
             <Field label="Email" required error={errors.email}>
               <div className="flex gap-2">
                 <input
-                  type="email" placeholder="you@example.com"
+                  type="email" placeholder="bigredhacks@gmail.com"
                   value={form.email}
                   onChange={(e) => handleChange("email", e.target.value)}
                   className={`${inputCls} flex-1`}
