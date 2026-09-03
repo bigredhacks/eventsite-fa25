@@ -20,8 +20,12 @@ function buildProfileValues(): Record<string, any> | null {
       last_name: saved.lastName || "",
       email: saved.email || "",
       phone_number: saved.phoneNumber || "",
+      age: saved.age || "",
+      school: saved.university || "",
       major: saved.major || "",
-      dietary_restrictions: saved.dietaryRestrictions ? [saved.dietaryRestrictions] : [],
+      gender: saved.gender || "",
+      shirt_size: saved.shirtSize || "",
+      dietary_restrictions: saved.dietaryRestrictions || [],
     };
   } catch {
     return null;
@@ -126,7 +130,7 @@ export default function ApplicationPanel({ isOpen, onClose, onSubmitted }: Appli
         )}
 
         {/* Form content */}
-        <div className="flex-1 overflow-y-auto px-8 py-6">
+        <div className="flex-1 overflow-y-auto overscroll-contain px-8 py-6">
           {isSubmitted ? (
             <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
               <p className="text-6xl font-jersey10 text-red5">Done!</p>
